@@ -987,6 +987,134 @@ input,textarea{color:var(--paper)!important;background:#ffffff0b!important;borde
   #storyProgressFill{transition:none}
 }
 </style>
+
+<style id="siya-mobile-stability-final">
+/* Final mobile stability pass: one predictable layout, no vertical card bounce. */
+@media (max-width:700px) {
+  html,body {
+    width:100%!important;
+    height:100%!important;
+    min-height:100%!important;
+    max-width:100%!important;
+    overflow:hidden!important;
+    overscroll-behavior:none!important;
+  }
+  .scene,.scene.active {
+    position:absolute!important;
+    inset:0!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    place-items:safe center!important;
+    align-content:safe center!important;
+    width:100%!important;
+    height:100vh!important;
+    min-height:100vh!important;
+    height:100svh!important;
+    min-height:100svh!important;
+    max-height:none!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    padding:calc(12px + env(safe-area-inset-top,0px)) 12px calc(16px + env(safe-area-inset-bottom,0px))!important;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-y:contain!important;
+    scrollbar-width:none;
+    transform:none!important;
+    transition:opacity .38s ease,visibility .38s ease!important;
+  }
+  .scene::-webkit-scrollbar {display:none!important;width:0!important}
+  .scene .content {
+    grid-column:1!important;
+    align-self:safe center!important;
+    justify-self:center!important;
+    position:relative!important;
+    inset:auto!important;
+    display:block!important;
+    width:min(100%,560px)!important;
+    min-width:0!important;
+    max-width:560px!important;
+    margin:0 auto!important;
+    padding:clamp(14px,4vw,22px)!important;
+    max-height:none!important;
+    overflow:visible!important;
+    transform:none!important;
+    overflow-wrap:anywhere!important;
+  }
+  /* Remove the 13px vertical entrance animation that made every slide jump. */
+  .scene.active .content {
+    animation:none!important;
+    transform:none!important;
+    filter:none!important;
+    opacity:1!important;
+  }
+  .scene h1 {
+    font-size:clamp(29px,8.2vw,42px)!important;
+    line-height:1.12!important;
+    letter-spacing:-.5px!important;
+    overflow-wrap:anywhere!important;
+    text-wrap:balance;
+  }
+  .scene p {
+    max-width:100%!important;
+    font-size:clamp(15px,4.1vw,17px)!important;
+    line-height:1.55!important;
+    overflow-wrap:anywhere!important;
+    text-wrap:pretty;
+  }
+  .scene .kicker {
+    font-size:9px!important;
+    line-height:1.5!important;
+    letter-spacing:clamp(1px,.4vw,2px)!important;
+    overflow-wrap:anywhere!important;
+  }
+  .scene .btn,.scene button.btn,.scene button {
+    position:relative!important;
+    float:none!important;
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    width:auto!important;
+    max-width:100%!important;
+    min-height:46px!important;
+    margin:10px 4px 4px!important;
+    padding:12px 16px!important;
+    font-size:12px!important;
+    line-height:1.25!important;
+    white-space:normal!important;
+    word-break:normal!important;
+    touch-action:manipulation!important;
+  }
+  .scene .content>* {max-width:100%!important;min-width:0!important}
+  .scene img,.scene video,.scene canvas {max-width:100%!important;height:auto}
+  .scene input,.scene textarea,.scene select {max-width:100%!important;font-size:16px!important}
+  .scene textarea {width:100%!important;min-height:110px}
+  /* Stable small-viewport units stop content shifting when browser bars move. */
+  #s8 .letter {max-height:58svh!important;overflow-y:auto!important;overscroll-behavior:contain}
+  #s9 .our-moments-envelope {width:100%!important;max-width:100%!important}
+  #s9 .om-photo-area img {max-width:100%!important;max-height:44svh!important;object-fit:contain!important}
+  #replyPhotoPreview {max-height:32svh!important}
+  #s11 .reply-actions {display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:8px!important;width:100%!important}
+  #s11 .reply-actions .btn {width:100%!important;max-width:100%!important;min-height:46px!important;margin:0!important}
+  #s11 #open.btn {width:100%!important;max-width:320px!important}
+  /* Keep decorative objects from making the layout appear to jump vertically. */
+  .scene .gift,.scene .balloon,#s3 .balloon,.birthday-cake-icon,.opening-orbit,.birthday-sparkle {
+    animation:none!important;
+    translate:none!important;
+  }
+  .cake {transform-origin:center top!important}
+}
+@media (max-width:380px) {
+  .scene,.scene.active {
+    padding-left:8px!important;
+    padding-right:8px!important;
+  }
+  .scene .content {padding:13px 10px!important}
+  .scene .btn,.scene button.btn,.scene button {padding:11px 13px!important;font-size:11px!important}
+}
+@media (prefers-reduced-motion:reduce) {
+  .scene,.scene.active {scroll-behavior:auto!important;transition:none!important}
+}
+</style>
+
 </head>
 <body>
 
