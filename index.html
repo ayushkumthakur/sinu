@@ -1308,6 +1308,157 @@ input::placeholder,textarea::placeholder{color:#cbb9cb!important;opacity:1}
  #s2 .s2-heart{bottom:clamp(42px,9vh,82px)!important}
 }
 </style>
+
+<style id="siya-mobile-no-jump-v2">
+/* One mobile layout model: stable viewport + flex centering with safe overflow. */
+@media screen and (max-width:700px) {
+  html {
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    overflow:hidden!important;
+    scroll-behavior:auto!important;
+    overscroll-behavior:none!important;
+  }
+  body {
+    position:relative!important;
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    max-height:none!important;
+    margin:0!important;
+    overflow:hidden!important;
+    overscroll-behavior:none!important;
+  }
+  .scene,.scene.active {
+    position:absolute!important;
+    inset:0!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:flex-start!important;
+    width:100%!important;
+    height:100vh!important;
+    min-height:100vh!important;
+    height:100svh!important;
+    min-height:100svh!important;
+    max-height:100svh!important;
+    box-sizing:border-box!important;
+    padding:calc(12px + env(safe-area-inset-top,0px)) 12px calc(14px + env(safe-area-inset-bottom,0px))!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch!important;
+    overscroll-behavior-y:contain!important;
+    scroll-behavior:auto!important;
+    overflow-anchor:none!important;
+    scrollbar-width:none!important;
+    transform:none!important;
+    transition:opacity .35s ease,visibility .35s ease!important;
+  }
+  .scene::-webkit-scrollbar {display:none!important;width:0!important;height:0!important}
+  .scene .content {
+    position:relative!important;
+    inset:auto!important;
+    display:block!important;
+    flex:0 0 auto!important;
+    align-self:center!important;
+    justify-self:auto!important;
+    width:100%!important;
+    max-width:560px!important;
+    min-width:0!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    margin-block:auto!important;
+    margin-inline:auto!important;
+    padding:clamp(14px,4vw,22px) clamp(12px,4vw,20px)!important;
+    overflow:visible!important;
+    transform:none!important;
+    animation:none!important;
+    filter:none!important;
+    opacity:1!important;
+    border:0!important;
+    border-radius:0!important;
+    outline:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+    overflow-wrap:anywhere!important;
+  }
+  /* Only the slide's own letter/photo/reply elements retain their own styling. */
+  .scene .content:before {max-width:100%!important}
+  .scene h1 {
+    max-width:100%!important;
+    font-size:clamp(28px,8vw,42px)!important;
+    line-height:1.12!important;
+    letter-spacing:-.4px!important;
+    overflow-wrap:anywhere!important;
+    text-wrap:balance;
+  }
+  .scene p {
+    max-width:100%!important;
+    font-size:clamp(15px,4.1vw,17px)!important;
+    line-height:1.52!important;
+    overflow-wrap:anywhere!important;
+    text-wrap:pretty;
+  }
+  .scene .kicker {
+    max-width:100%!important;
+    font-size:9px!important;
+    line-height:1.5!important;
+    letter-spacing:clamp(1px,.4vw,2px)!important;
+    overflow-wrap:anywhere!important;
+  }
+  .scene .btn,.scene button.btn,.scene button {
+    position:relative!important;
+    float:none!important;
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    width:auto!important;
+    max-width:100%!important;
+    min-height:46px!important;
+    margin:10px 4px 4px!important;
+    padding:12px 16px!important;
+    font-size:12px!important;
+    line-height:1.25!important;
+    white-space:normal!important;
+    word-break:normal!important;
+    touch-action:manipulation!important;
+  }
+  .scene .content>* {max-width:100%!important;min-width:0!important}
+  .scene img,.scene video,.scene canvas {max-width:100%!important;height:auto}
+  .scene textarea,.scene input,.scene select {max-width:100%!important;font-size:16px!important}
+  .scene textarea {width:100%!important;min-height:110px}
+  /* Limit internal long panels, but keep the whole slide vertically scrollable. */
+  #s8 .letter {max-height:55svh!important;overflow-y:auto!important;overscroll-behavior:contain!important}
+  #s9 .our-moments-envelope {width:100%!important;max-width:100%!important}
+  #s9 .om-photo-area img {max-width:100%!important;max-height:42svh!important;object-fit:contain!important}
+  #replyPhotoPreview {max-height:30svh!important}
+  #s11 .reply-actions {display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:8px!important;width:100%!important}
+  #s11 .reply-actions .btn {width:100%!important;max-width:100%!important;min-height:46px!important;margin:0!important}
+  #s11 #open.btn {width:100%!important;max-width:320px!important}
+  /* No decorative vertical bobbing on phones; animations remain on desktop. */
+  .scene .gift,.scene .balloon,#s3 .balloon,.birthday-cake-icon,.opening-orbit,.birthday-sparkle {
+    animation:none!important;
+    translate:none!important;
+  }
+  .scene .gift {transform:none!important}
+  .scene .bg {inset:-6%!important}
+}
+@media screen and (max-width:380px) {
+  .scene,.scene.active {padding-left:8px!important;padding-right:8px!important}
+  .scene .content {padding:12px 10px!important}
+  .scene .btn,.scene button.btn,.scene button {padding:11px 13px!important;font-size:11px!important}
+}
+@media screen and (max-height:600px) and (max-width:700px) {
+  .scene,.scene.active {padding-top:calc(8px + env(safe-area-inset-top,0px))!important}
+  .scene .content {margin-block:12px!important}
+  .scene h1 {margin-top:7px!important;margin-bottom:7px!important}
+  .scene p {margin-top:7px!important;margin-bottom:7px!important}
+}
+</style>
 </head>
 <body>
 
