@@ -937,7 +937,7 @@ body:before{content:"";position:fixed;inset:0;z-index:2;pointer-events:none;opac
 .bg{inset:-15%!important;background:radial-gradient(ellipse at 20% 18%,#1b6265 0%,transparent 39%),radial-gradient(ellipse at 80% 75%,#9b553d55 0%,transparent 36%),linear-gradient(135deg,#071b24 0%,#0b2932 48%,#101a2c 100%)!important;animation:siyaAtmosphere 18s ease-in-out infinite alternate!important}
 @keyframes siyaAtmosphere{to{transform:scale(1.08) rotate(1.2deg);filter:hue-rotate(10deg)}}
 /* Each scene gets a different light composition, so the journey feels like changing film sets. */
-#s2 .bg,#s5 .bg,#s10 .bg{background:radial-gradient(ellipse at 50% 20%,#8a593e 0%,transparent 32%),radial-gradient(ellipse at 10% 90%,#1e6667 0%,transparent 43%),linear-gradient(145deg,#071b24,#183941 56%,#171e30)!important}
+#s5 .bg,#s10 .bg{background:radial-gradient(ellipse at 50% 20%,#8a593e 0%,transparent 32%),radial-gradient(ellipse at 10% 90%,#1e6667 0%,transparent 43%),linear-gradient(145deg,#071b24,#183941 56%,#171e30)!important}
 #s3 .bg,#s7 .bg,#s11 .bg{background:radial-gradient(ellipse at 75% 15%,#5e4d8b 0%,transparent 38%),radial-gradient(ellipse at 20% 80%,#1b7772 0%,transparent 38%),linear-gradient(135deg,#071b24,#172941 65%,#101a2c)!important}
 #s4 .bg,#s8 .bg,#s12 .bg{background:radial-gradient(ellipse at 50% 0%,#6c3d53 0%,transparent 42%),radial-gradient(ellipse at 80% 80%,#8a593e44,transparent 35%),linear-gradient(160deg,#101a2c,#092d35 65%,#071b24)!important}
 .content{width:min(720px,92vw)!important;padding:clamp(22px,5vw,46px) clamp(18px,5vw,54px)!important;border:1px solid #f0c98752!important;border-radius:5px 34px 5px 34px!important;background:linear-gradient(135deg,#0b2932d9,#071b24c9)!important;box-shadow:0 25px 80px #0006,inset 0 0 0 5px #ffffff05!important;backdrop-filter:blur(14px)!important}
@@ -1150,7 +1150,7 @@ body:after{opacity:.09!important}
   radial-gradient(ellipse at 84% 78%,rgba(116,66,84,.44) 0%,transparent 40%),
   linear-gradient(135deg,#170f20 0%,#24172f 52%,#120d1b 100%)!important;
 }
-#s2 .bg,#s5 .bg,#s10 .bg{
+#s5 .bg,#s10 .bg{
  background:
   radial-gradient(ellipse at 50% 18%,rgba(142,91,91,.52),transparent 36%),
   radial-gradient(ellipse at 10% 88%,rgba(106,69,107,.46),transparent 44%),
@@ -1250,78 +1250,23 @@ input::placeholder,textarea::placeholder{color:#cbb9cb!important;opacity:1}
 @media(prefers-reduced-motion:reduce){.scene .bg{animation:none!important}}
 </style>
 
-<style id="siya-simple-surprise-slide">
-/* Minimal surprise slide: no gift graphic or content card. */
-#s2{cursor:pointer!important}
-#s2 .content{
- width:min(760px,92vw)!important;max-width:760px!important;padding:0!important;
- border:0!important;border-radius:0!important;background:transparent!important;
- box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
- text-align:center!important;pointer-events:none!important;
-}
-#s2 .content:before{display:none!important;content:none!important}
-#s2 .content h1{
- margin:0 0 22px!important;font-size:clamp(42px,8.5vw,68px)!important;
- line-height:1.12!important;letter-spacing:-.6px!important;
- background:linear-gradient(105deg,#fff2dc 0%,#e8c995 52%,#fff0d0 100%)!important;
- background-size:180%!important;-webkit-background-clip:text!important;background-clip:text!important;
- color:transparent!important;text-shadow:0 4px 28px rgba(232,201,149,.12)!important;
-}
-#s2 .content p{
- margin:0!important;color:#f1e5ed!important;
- font-family:Georgia,"Times New Roman",serif!important;
- font-size:clamp(19px,4.5vw,28px)!important;line-height:1.5!important;letter-spacing:.15px!important;
-}
-#s2 .s2-heart{
- position:absolute!important;left:50%!important;bottom:clamp(48px,10vh,100px)!important;
- transform:translateX(-50%)!important;color:#e8c995!important;font-size:18px!important;
- line-height:1!important;opacity:.78!important;text-shadow:0 0 14px rgba(232,201,149,.35)!important;
- pointer-events:none!important;
-}
-@media(max-width:700px){
- #s2 .content{width:100%!important;max-width:100%!important;padding:0 12px!important;margin:0 auto!important}
- #s2 .content h1{font-size:clamp(38px,10vw,54px)!important;margin:0 0 17px!important}
- #s2 .content p{font-size:clamp(19px,5vw,24px)!important}
- #s2 .s2-heart{bottom:clamp(42px,9vh,82px)!important}
-}
-</style>
 
-<style id="siya-simple-surprise-slide-gift-corrected">
-/* Keep the gift emoji from the reference; remove only the large content card. */
-#s2 .content{
- width:min(760px,92vw)!important;max-width:760px!important;padding:0!important;
- border:0!important;border-radius:0!important;background:transparent!important;
- box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
- text-align:center!important;
+<style id="siya-clean-no-slide-cards">
+/* Clean, open layout throughout the story: remove the outer card/frame from every slide. */
+.scene:after{
+  display:none!important;
+  content:none!important;
 }
-#s2 .content:before{display:none!important;content:none!important}
-#s2 .gift{
- display:block!important;width:max-content!important;max-width:100%!important;
- margin:0 auto 28px!important;padding:0!important;border:0!important;
- background:transparent!important;box-shadow:none!important;
- font-size:clamp(104px,25vw,150px)!important;line-height:1.1!important;
- cursor:pointer!important;filter:drop-shadow(0 14px 20px rgba(0,0,0,.28))!important;
- animation:none!important;transform:none!important;
+.scene .content{
+  border:0!important;
+  outline:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
 }
-#s2 .gift:focus-visible{outline:2px solid #e8c995!important;outline-offset:8px!important;border-radius:18px}
-#s2 .content h1{
- margin:0 0 20px!important;font-size:clamp(42px,8.5vw,68px)!important;
- line-height:1.12!important;letter-spacing:-.6px!important;
- background:linear-gradient(105deg,#fff2dc 0%,#e8c995 52%,#fff0d0 100%)!important;
- background-size:180%!important;-webkit-background-clip:text!important;background-clip:text!important;
- color:transparent!important;text-shadow:0 4px 28px rgba(232,201,149,.12)!important;
-}
-#s2 .content p{
- margin:0!important;color:#f1e5ed!important;
- font-family:Georgia,"Times New Roman",serif!important;
- font-size:clamp(19px,4.5vw,28px)!important;line-height:1.5!important;letter-spacing:.15px!important;
-}
-@media(max-width:700px){
- #s2 .content{width:100%!important;max-width:100%!important;padding:0 12px!important;margin:auto!important}
- #s2 .gift{font-size:clamp(100px,27vw,140px)!important;margin-bottom:22px!important}
- #s2 .content h1{font-size:clamp(38px,10vw,54px)!important;margin-bottom:17px!important}
- #s2 .content p{font-size:clamp(19px,5vw,24px)!important}
-}
+/* Retain the original letter, envelopes, memory/photo panels and reply controls inside their own slides. */
 </style>
 </head>
 <body>
@@ -1341,8 +1286,8 @@ input::placeholder,textarea::placeholder{color:#cbb9cb!important;opacity:1}
 <div class="firework fw2"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
 <div class="firework fw3"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
 
-<section class="scene active" id="s1"><div class="bg"></div><div class="content"><div class="opening-orbit" aria-hidden="true">✦ <span>✧</span> ✦</div><div class="kicker">A LITTLE SURPRISE, JUST FOR YOU</div><h1>Siya…</h1><p>Tonight, let's leave the ordinary world behind and make a few little memories of our own.</p><div class="opening-signoff">A little story made with care <span>♥</span></div><button class="btn" onclick="go(2)">Step into the story ✨</button></div></section>
-<section class="scene" id="s2"><div class="bg"></div><div class="content"><div class="gift" role="button" tabindex="0" aria-label="Open the surprise" onclick="go(3)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();go(3)}">🎁</div><h1>A little surprise</h1><p>Tap the gift when you’re ready.</p></div><div class="s2-heart" aria-hidden="true">♥</div></section>
+<section class="scene active" id="s1"><div class="bg"></div><div class="content"><div class="opening-orbit" aria-hidden="true">✦ <span>✧</span> ✦</div><div class="kicker">A LITTLE SURPRISE, JUST FOR YOU</div><h1>Siya…</h1><p>Tonight, let's leave the ordinary world behind and make a few little memories of our own.</p><div class="opening-signoff">A little story made with care <span>♥</span></div><button class="btn" onclick="go(3)">Step into the story ✨</button></div></section>
+
 <section class="scene" id="s3"><div class="bg"></div><div class="content"><div class="kicker">Four things you should know</div><h1 style="font-size:42px">A little reminder for you</h1><div class="words"><span id="w1" class="word">YOU</span><span id="w2" class="word">MAKE</span><span id="w3" class="word">LIFE</span><span id="w4" class="word">BRIGHT</span></div><p id="hint" class="hint">Pop each balloon to reveal a little truth…</p><div id="next" class="next"><p style="font-size:16px">Your four little reminders are ready. Shall we continue? ✨</p><button class="btn" onclick="nextSpecial()">Next →</button><div id="timer" class="timer"></div></div></div></section>
 <section class="scene" id="s4"><div class="bg"></div><div class="content"><div style="font-size:90px">✨</div><h1>Take a little breath</h1><p>You don't have to rush through the beautiful parts. Stay here for a second, then make a wish.</p><button class="btn" onclick="go(5)">Make a wish ❤️</button></div></section>
 <section class="scene" id="s5"><div class="bg"></div><div class="content"><div class="kicker">A wish just for you</div><div class="cake-scene-glow"></div><div class="cake-spotlight"></div><div class="cake cake-reveal"><div class="plate"></div><div class="tier"><div class="icing"></div></div><div class="tier2"></div><div class="ganache-shine"></div><div class="decor d1">✦</div><div class="decor d2">♥</div><div class="decor d3">✦</div><div class="decor d4">♥</div><div class="cherry ch1"></div><div class="cherry ch2"></div><div class="choco-shavings">🍫</div><div class="choco-shavings s2">🍫</div><div class="candle c1" role="button" tabindex="0" aria-label="Blow out candle one" onclick="candleOff(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();candleOff(this)}"><i class="flame"></i><i class="smoke"></i></div><div class="candle c2" role="button" tabindex="0" aria-label="Blow out candle two" onclick="candleOff(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();candleOff(this)}"><i class="flame"></i><i class="smoke"></i></div><div class="candle c3" role="button" tabindex="0" aria-label="Blow out candle three" onclick="candleOff(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();candleOff(this)}"><i class="flame"></i><i class="smoke"></i></div></div><h1 style="font-size:42px">Wish for something wonderful</h1><p id="ch">Blow out each candle and keep your wish close.</p></div></section>
