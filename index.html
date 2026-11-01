@@ -1587,14 +1587,15 @@ function clearSceneTimers(){
 function updateStoryProgress(n){
   const progress=document.getElementById("storyProgress");
   const fill=document.getElementById("storyProgressFill");
-  const scenes=Array.from(document.querySelectorAll("section.scene"));
-  const active=document.getElementById("s"+n);
-  const index=scenes.indexOf(active);
-  const total=scenes.length;
+  /* Story flow order differs from physical HTML order for the two extra slides. */
+  const order=[1,2,3,4,5,6,7,8,13,9,12,10,11];
+  const index=order.indexOf(Number(n));
+  const total=order.length;
   const value=index>=0?index+1:1;
   const percent=total>1?((value-1)/(total-1))*100:100;
   if(fill)fill.style.width=percent+"%";
   if(progress){
+    progress.setAttribute("aria-valuemin","1");
     progress.setAttribute("aria-valuemax",String(total));
     progress.setAttribute("aria-valuenow",String(value));
     progress.setAttribute("aria-valuetext","Slide "+value+" of "+total);
