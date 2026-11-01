@@ -1459,6 +1459,30 @@ input::placeholder,textarea::placeholder{color:#cbb9cb!important;opacity:1}
   .scene p {margin-top:7px!important;margin-bottom:7px!important}
 }
 </style>
+
+<style id="siya-performance-smooth-motion">
+/* Smooth, predictable slide transitions with fewer expensive animated layers. */
+.scene,.scene.active{
+  transition:opacity .42s cubic-bezier(.22,.61,.36,1),visibility .42s ease,transform .42s cubic-bezier(.22,.61,.36,1)!important;
+}
+.scene:not(.active){pointer-events:none!important}
+.scene.active{pointer-events:auto!important}
+.scene .bg{will-change:auto!important}
+.scene.active .bg{will-change:opacity}
+@media(max-width:700px){
+  /* Keep the ambient background still on phones; slide fades remain smooth. */
+  .scene.active .bg{animation:none!important;transform:none!important;will-change:auto!important}
+  body:after{display:none!important}
+  .cinematic-particles,.cinematic-stars,.cinematic-heart,.message-spark{display:none!important;animation:none!important}
+  .scene.active .content{animation:none!important;will-change:auto!important}
+}
+.fire{pointer-events:none;will-change:transform,opacity}
+@media(prefers-reduced-motion:reduce){
+  .scene,.scene.active{transition:none!important}
+  .scene.active .bg,.scene.active .content{animation:none!important}
+  .fire{display:none!important}
+}
+</style>
 </head>
 <body>
 
@@ -1544,13 +1568,30 @@ input::placeholder,textarea::placeholder{color:#cbb9cb!important;opacity:1}
 <section class="scene" id="s11"><div class="bg"></div><div class="content"><div class="kicker">Your turn, if you'd like</div><h1 style="font-size:44px">Leave a little message?</h1><button id="open" class="btn" onclick="openReply()">Open reply box 💌</button><div id="replyBox" style="display:none;width:100%"><label class="sr-only" for="reply">Your message to Siya</label><textarea id="reply" placeholder="Write your reply here…" maxlength="2000"></textarea><div class="reply-photo-picker"><label class="btn photo-pick-btn" for="replyPhotoInput">Attach a photo 📷</label><input id="replyPhotoInput" type="file" accept="image/*" aria-label="Attach a photo to your message"><img id="replyPhotoPreview" alt="Selected photo preview" hidden><p id="replyPhotoStatus" aria-live="polite">Optional photo · maximum 5 MB</p></div><div class="reply-actions"><button class="btn" type="button" onclick="saveReply()">Send ❤️</button><button class="btn" type="button" onclick="showReplies()">View replies</button></div><div id="list" class="reply" aria-live="polite"></div></div></div></section>
 <script>
 let current=1,specialCount=0,candleCount=0,timer=null,countdownInterval=null,changing=false;
-function clearSceneTimers(){if(timer){clearTimeout(timer);timer=null}if(countdownInterval){clearInterval(countdownInterval);countdownInterval=null}}
+const sceneTimeouts=new Set();
+function later(fn,delay){
+  const id=window.setTimeout(()=>{
+    sceneTimeouts.delete(id);
+    fn();
+  },delay);
+  sceneTimeouts.add(id);
+  return id;
+}
+function clearSceneTimers(){
+  sceneTimeouts.forEach(id=>window.clearTimeout(id));
+  sceneTimeouts.clear();
+  if(timer){clearTimeout(timer);timer=null}
+  if(countdownInterval){clearInterval(countdownInterval);countdownInterval=null}
+}
 
 function updateStoryProgress(n){
   const progress=document.getElementById("storyProgress");
   const fill=document.getElementById("storyProgressFill");
-  const total=document.querySelectorAll(".scene").length;
-  const value=Math.min(total,Math.max(1,Number(n)||1));
+  const scenes=Array.from(document.querySelectorAll("section.scene"));
+  const active=document.getElementById("s"+n);
+  const index=scenes.indexOf(active);
+  const total=scenes.length;
+  const value=index>=0?index+1:1;
   const percent=total>1?((value-1)/(total-1))*100:100;
   if(fill)fill.style.width=percent+"%";
   if(progress){
@@ -1559,17 +1600,146 @@ function updateStoryProgress(n){
     progress.setAttribute("aria-valuetext","Slide "+value+" of "+total);
   }
 }
-
+function updateLastSlideActions(n){
+  const controls=document.getElementById("lastSlideActions");
+  if(controls)controls.style.display=(n===11)?"flex":"none";
+}
+function initializeSceneAccessibility(){
+  document.querySelectorAll("section.scene").forEach(scene=>{
+    const active=scene.id==="s1";
+    scene.setAttribute("aria-hidden",String(!active));
+    scene.inert=!active;
+  });
+}
+initializeSceneAccessibility();
 updateStoryProgress(current);
-function go(n){if(changing)return;const next=document.getElementById("s"+n),active=document.getElementById("s"+current);if(!next||!active)return;clearSceneTimers();changing=true;active.classList.remove("active");setTimeout(()=>{current=n;next.scrollTop=0;next.classList.add("active");updateStoryProgress(current);changing=false;if(n===3)setupSpecial();if(n===5)setupCake();if(n===6)setTimeout(()=>{const happy=document.getElementById("happy");if(happy)happy.classList.add("show")},700);if(n===10)fireworks()},500)}
-function setupSpecial(){specialCount=0;document.querySelectorAll(".balloon").forEach(x=>x.remove());["w1","w2","w3","w4"].forEach(x=>document.getElementById(x).classList.remove("show"));document.getElementById("next").classList.remove("show");document.getElementById("timer").textContent="";document.getElementById("hint").textContent="Tap a balloon…";let scene=document.getElementById("s3");[["w1","12%","25%"],["w2","72%","25%"],["w3","12%","62%"],["w4","72%","62%"]].forEach(v=>{let e=document.createElement("div");e.className="balloon";e.textContent="🎈";e.style.left=v[1];e.style.top=v[2];e.dataset.balloonId=v[0];e.onclick=()=>pop(e,v[0]);scene.appendChild(e);if(window.innerWidth<=600){const p={w1:["3%","34%"],w2:["79%","34%"],w3:["6%","70%"],w4:["74%","70%"]}[v[0]];if(p){e.style.setProperty("left",p[0],"important");e.style.setProperty("top",p[1],"important");}}})}
-function pop(e,id){if(e.dataset.done)return;e.dataset.done=1;e.style.transform="scale(1.5)";e.style.opacity=0;setTimeout(()=>e.remove(),850);setTimeout(()=>document.getElementById(id).classList.add("show"),350);specialCount++;document.getElementById("hint").textContent=specialCount<4?"Another little word is hiding…":"YOU ARE SO SPECIAL ❤️";if(specialCount===4)setTimeout(startCountdown,1400)}
-function startCountdown(){clearSceneTimers();document.getElementById("next").classList.add("show");let left=3;document.getElementById("timer").textContent="Moving on in 3…";countdownInterval=setInterval(()=>{left--;if(left>0)document.getElementById("timer").textContent="Moving on in "+left+"…";else{clearSceneTimers();go(4)}},1000);timer=setTimeout(()=>go(4),3300)}
+updateLastSlideActions(current);
+function go(n){
+  if(changing)return;
+  const next=document.getElementById("s"+n);
+  const active=document.getElementById("s"+current);
+  if(!next||!active||next===active)return;
+  clearSceneTimers();
+  changing=true;
+  active.classList.remove("active");
+  active.setAttribute("aria-hidden","true");
+  active.inert=true;
+  const motionReduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  later(()=>{
+    current=n;
+    next.scrollTop=0;
+    next.classList.add("active");
+    next.setAttribute("aria-hidden","false");
+    next.inert=false;
+    updateStoryProgress(current);
+    updateLastSlideActions(current);
+    changing=false;
+    if(n===3)setupSpecial();
+    if(n===5)setupCake();
+    if(n===6)later(()=>{
+      const happy=document.getElementById("happy");
+      if(happy)happy.classList.add("show");
+    },500);
+    if(n===10)fireworks();
+  },motionReduced?0:220);
+}
+function setupSpecial(){
+  specialCount=0;
+  document.querySelectorAll("#s3 .balloon").forEach(x=>x.remove());
+  ["w1","w2","w3","w4"].forEach(id=>{const word=document.getElementById(id);if(word)word.classList.remove("show")});
+  const next=document.getElementById("next"),timerEl=document.getElementById("timer"),hint=document.getElementById("hint");
+  if(next)next.classList.remove("show");
+  if(timerEl)timerEl.textContent="";
+  if(hint)hint.textContent="Tap a balloon…";
+  const scene=document.getElementById("s3");
+  if(!scene)return;
+  const positions=[["w1","12%","25%"],["w2","72%","25%"],["w3","12%","62%"],["w4","72%","62%"]];
+  positions.forEach(([id,left,top])=>{
+    const el=document.createElement("div");
+    el.className="balloon";
+    el.textContent="🎈";
+    el.setAttribute("role","button");
+    el.setAttribute("tabindex","0");
+    el.setAttribute("aria-label","Reveal "+id.slice(1));
+    el.style.left=left;
+    el.style.top=top;
+    el.dataset.balloonId=id;
+    const reveal=()=>pop(el,id);
+    el.addEventListener("click",reveal);
+    el.addEventListener("keydown",event=>{
+      if(event.key==="Enter"||event.key===" "){event.preventDefault();reveal()}
+    });
+    scene.appendChild(el);
+  });
+  placeStoryBalloons();
+}
+function pop(e,id){
+  if(!e||e.dataset.done)return;
+  e.dataset.done="1";
+  e.style.transform="scale(1.5)";
+  e.style.opacity="0";
+  later(()=>e.remove(),650);
+  later(()=>{const word=document.getElementById(id);if(word)word.classList.add("show")},260);
+  specialCount++;
+  const hint=document.getElementById("hint");
+  if(hint)hint.textContent=specialCount<4?"Another little word is hiding…":"YOU ARE SO SPECIAL ❤️";
+  if(specialCount===4)later(startCountdown,1100);
+}
+function startCountdown(){
+  clearSceneTimers();
+  const next=document.getElementById("next"),timerEl=document.getElementById("timer");
+  if(next)next.classList.add("show");
+  let left=3;
+  if(timerEl)timerEl.textContent="Moving on in 3…";
+  countdownInterval=window.setInterval(()=>{
+    left--;
+    if(left>0){if(timerEl)timerEl.textContent="Moving on in "+left+"…"}
+    else{clearSceneTimers();go(4)}
+  },1000);
+}
 function nextSpecial(){clearSceneTimers();go(4)}
 function setupCake(){candleCount=0;document.querySelectorAll(".candle").forEach(x=>x.classList.remove("off"));document.getElementById("ch").textContent="Tap each candle to blow it out."}
-function candleOff(e){if(e.classList.contains("off"))return;e.classList.add("off");candleCount++;document.getElementById("ch").textContent=candleCount<3?"One more candle…":"All the candles are out. ✨";if(candleCount===3)setTimeout(()=>go(6),2800)}
-function fireworks(){const mobile=window.matchMedia("(max-width: 600px)").matches;const burstCount=mobile?3:5;const particleCount=mobile?16:30;for(let k=0;k<burstCount;k++)setTimeout(()=>{for(let i=0;i<particleCount;i++){let e=document.createElement("i");e.className="fire";e.style.left=(20+Math.random()*60)+"vw";e.style.top=(15+Math.random()*45)+"vh";let a=Math.random()*Math.PI*2,r=70+Math.random()*220;e.style.setProperty("--x",Math.cos(a)*r+"px");e.style.setProperty("--y",Math.sin(a)*r+"px");document.body.appendChild(e);setTimeout(()=>e.remove(),2100)}},k*500)}
-function openReply(){document.getElementById("replyBox").style.display="block";document.getElementById("open").style.display="none";showReplies()}
+function candleOff(e){
+  if(!e||e.classList.contains("off"))return;
+  e.classList.add("off");
+  candleCount++;
+  const hint=document.getElementById("ch");
+  if(hint)hint.textContent=candleCount<3?"One more candle…":"All the candles are out. ✨";
+  if(candleCount===3)later(()=>go(6),2200);
+}
+function fireworks(){
+  const reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduced)return;
+  const mobile=window.matchMedia("(max-width: 600px)").matches;
+  const burstCount=mobile?2:4;
+  const particleCount=mobile?12:20;
+  for(let burst=0;burst<burstCount;burst++){
+    later(()=>{
+      const fragment=document.createDocumentFragment();
+      for(let i=0;i<particleCount;i++){
+        const particle=document.createElement("i");
+        particle.className="fire";
+        particle.style.left=(20+Math.random()*60)+"vw";
+        particle.style.top=(15+Math.random()*45)+"vh";
+        const angle=Math.random()*Math.PI*2;
+        const radius=60+Math.random()*(mobile?110:180);
+        particle.style.setProperty("--x",Math.cos(angle)*radius+"px");
+        particle.style.setProperty("--y",Math.sin(angle)*radius+"px");
+        particle.addEventListener("animationend",()=>particle.remove(),{once:true});
+        fragment.appendChild(particle);
+      }
+      document.body.appendChild(fragment);
+    },burst*420);
+  }
+}
+function openReply(){
+  const box=document.getElementById("replyBox"),button=document.getElementById("open");
+  if(box)box.style.display="block";
+  if(button)button.style.display="none";
+  showReplies();
+  const field=document.getElementById("reply");
+  if(field)field.focus({preventScroll:true});
+}
 function readReplies(){try{const raw=localStorage.getItem("siyaReplies");const parsed=raw?JSON.parse(raw):[];return Array.isArray(parsed)?parsed.filter(x=>x&&typeof x.text==="string"&&typeof x.time==="string").slice(-50):[]}catch(e){return []}}
 function backendConfigured(){
   const cfg=window.SIYA_BACKEND||{};
@@ -1611,7 +1781,7 @@ async function saveReply(){
     if(!response.ok) throw new Error(result.error || "Could not send right now. Please try again.");
     field.value="";
     if(input) input.value="";
-    const preview=document.getElementById("replyPhotoPreview");if(preview){preview.hidden=true;preview.removeAttribute("src");}
+    const preview=document.getElementById("replyPhotoPreview");if(preview){if(preview.dataset.objectUrl)URL.revokeObjectURL(preview.dataset.objectUrl);delete preview.dataset.objectUrl;preview.hidden=true;preview.removeAttribute("src");}
     const photoStatus=document.getElementById("replyPhotoStatus");if(photoStatus) photoStatus.textContent="Optional photo · maximum 5 MB";
     list.textContent="Your message has been sent. Thank you ❤️";
   }catch(error){list.textContent=error.message || "Something went wrong. Please try again."}
@@ -1627,20 +1797,7 @@ function showReplies(){
 }
 </script>
 
-<script>
-document.addEventListener('click', function(e){
-  const target = e.target.closest('button,[role="button"],.open,.open-btn,.message-btn,.envelope');
-  if(!target) return;
-  setTimeout(function(){
-    document.querySelectorAll('.firework').forEach((fw,i)=>{
-      fw.style.animation = 'none';
-      void fw.offsetWidth;
-      fw.style.opacity = '1';
-      fw.querySelectorAll('span').forEach(s=>{ s.style.animation = 'none'; void s.offsetWidth; s.style.animation='burst 1.35s ease-out forwards'; s.style.animationDelay=(i*90)+'ms'; });
-    });
-  },120);
-});
-</script>
+
 <div class="last-slide-only" id="lastSlideActions">
   <button type="button" onclick="document.getElementById('lastSlideWish').classList.toggle('show')">Final Wish 💓</button>
   <button type="button" onclick="location.reload()">↻ Replay</button>
@@ -1666,91 +1823,13 @@ document.addEventListener('click', function(e){
 
 </div>
 
-<script>
-(function(){
-  const controls=document.getElementById('lastSlideActions');
-  if(!controls)return;
-  function update(){
-    const candidates=[...document.querySelectorAll('section, .slide, .page, .screen, [data-slide], [data-page]')];
-    if(!candidates.length){controls.style.display='none';return;}
-    let visible=candidates.filter(el=>{
-      const s=getComputedStyle(el), r=el.getBoundingClientRect();
-      return s.display!=='none' && s.visibility!=='hidden' && parseFloat(s.opacity||1)>0.5 && r.width>0 && r.height>0;
-    });
-    const current=visible[visible.length-1];
-    const isLast=current && (
-      /(?:last|final|end)/i.test(current.id+' '+current.className) ||
-      candidates.indexOf(current)===candidates.length-1
-    );
-    controls.style.display=isLast?'flex':'none';
-  }
-  update();
-  new MutationObserver(update).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class','style','hidden']});
-  window.addEventListener('resize',update);
-})();
-</script>
 
-<script>
-(function(){
-  const selectors='section, .slide, .page, .screen, [data-slide], [data-page]';
-  let last=null;
-  function enhance(){
-    const els=[...document.querySelectorAll(selectors)].filter(el=>{
-      const s=getComputedStyle(el),r=el.getBoundingClientRect();
-      return s.display!=='none'&&s.visibility!=='hidden'&&parseFloat(s.opacity||1)>.5&&r.width>0&&r.height>0;
-    });
-    const current=els[els.length-1];
-    if(current&&current!==last){
-      last=current;
-      current.classList.remove('cinematic-transition');
-      void current.offsetWidth;
-      current.classList.add('cinematic-transition');
-      if(/last|final|end/i.test((current.id||'')+' '+current.className)) current.classList.add('final-reveal');
-      current.querySelectorAll('.firework,.fireworks,.firework-container').forEach((el,i)=>el.style.animationDelay=(.5+i*.18)+'s');
-    }
-  }
-  enhance();
-  new MutationObserver(enhance).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class','style','hidden']});
-})();
-</script>
 
-<script>
-(function(){
-  const nodes=[...document.querySelectorAll('section,.slide,.page,.screen,[data-slide],[data-page]')];
-  let previous=null;
-  function getCurrent(){
-    const explicit=nodes.find(el=>el.classList.contains('active')||el.classList.contains('current')||el.getAttribute('aria-current')==='true');
-    if(explicit) return explicit;
-    const visible=nodes.filter(el=>{
-      const s=getComputedStyle(el),r=el.getBoundingClientRect();
-      return s.display!=='none'&&s.visibility!=='hidden'&&parseFloat(s.opacity||1)>.5&&r.width>0&&r.height>0;
-    });
-    return visible[visible.length-1]||null;
-  }
-  function run(){
-    const current=getCurrent();
-    if(!current || current===previous) return;
-    previous=current;
-    current.classList.add('cinematic-transition');
-    setTimeout(()=>current.classList.remove('cinematic-transition'),950);
-  }
-  run();
-  const observer=new MutationObserver(run);
-  observer.observe(document.body,{subtree:true,attributes:true,attributeFilter:['class','style','hidden','aria-current']});
-})();
-</script>
 
-<script>
-(function(){
-  document.addEventListener('click',function(e){
-    const el=e.target.closest('button,a,[role="button"]');
-    if(!el) return;
-    if(el.dataset.tapGuard==='1') return;
-    el.dataset.tapGuard='1';
-    setTimeout(()=>{delete el.dataset.tapGuard},450);
-  },true);
-})();
-</script>
+
+
+
+
 
 <script>
 (function(){
@@ -1846,15 +1925,16 @@ document.addEventListener('click', function(e){
         const word=words[wi];
         if(ci<word.length){
           out.textContent+=word[ci++];
-          // Slowly move the message upward as it fills, like a cinematic letter reveal.
-          if(out.parentElement.scrollHeight > out.parentElement.clientHeight){
-            out.parentElement.scrollTo({top:out.parentElement.scrollHeight,behavior:"smooth"});
-          }
-          setTimeout(nextWord,24);
+          setTimeout(nextWord,22);
         }else{
           out.textContent+=" ";
           wi++;ci=0;
-          setTimeout(nextWord,115);
+          const paper=out.parentElement;
+          if(paper&&paper.scrollHeight>paper.clientHeight){
+            const reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            paper.scrollTo({top:paper.scrollHeight,behavior:reduced?"auto":"smooth"});
+          }
+          setTimeout(nextWord,125);
         }
       }
       setTimeout(nextWord,650);
@@ -2183,14 +2263,17 @@ button,.btn{cursor:pointer;}
       var file=input.files&&input.files[0]; if(!file)return;
       if(!file.type||file.type.indexOf("image/")!==0){input.value="";if(status)status.textContent="Please choose an image file.";return;}
       if(file.size>maxBytes){input.value="";if(status)status.textContent="Choose an image under "+Math.round(maxBytes/1024/1024)+" MB.";return;}
-      var reader=new FileReader();
-      reader.onload=function(event){
-        preview.src=event.target.result;preview.hidden=false;
+      try{
+        if(preview.dataset.objectUrl)URL.revokeObjectURL(preview.dataset.objectUrl);
+        var objectUrl=URL.createObjectURL(file);
+        preview.dataset.objectUrl=objectUrl;
+        preview.src=objectUrl;
+        preview.hidden=false;
         if(placeholder)placeholder.hidden=true;
         if(status)status.textContent=label;
-      };
-      reader.onerror=function(){if(status)status.textContent="Could not preview that photo. Please try another.";};
-      reader.readAsDataURL(file);
+      }catch(error){
+        if(status)status.textContent="Could not preview that photo. Please try another.";
+      }
     });
   }
   function setup(){
