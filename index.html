@@ -1611,9 +1611,16 @@ function initializeSceneAccessibility(){
     scene.inert=!active;
   });
 }
-initializeSceneAccessibility();
-updateStoryProgress(current);
-updateLastSlideActions(current);
+function finishInitialSetup(){
+  initializeSceneAccessibility();
+  updateStoryProgress(current);
+  updateLastSlideActions(current);
+}
+if(document.readyState==="loading"){
+  document.addEventListener("DOMContentLoaded",finishInitialSetup,{once:true});
+}else{
+  finishInitialSetup();
+}
 function go(n){
   if(changing)return;
   const next=document.getElementById("s"+n);
@@ -1673,6 +1680,24 @@ function setupSpecial(){
   });
   placeStoryBalloons();
 }
+let balloonLayoutFrame=0;
+function placeStoryBalloons(){
+  if(balloonLayoutFrame)cancelAnimationFrame(balloonLayoutFrame);
+  balloonLayoutFrame=requestAnimationFrame(()=>{
+    balloonLayoutFrame=0;
+    if(window.innerWidth>600)return;
+    const positions={w1:["3%","34%"],w2:["79%","34%"],w3:["6%","70%"],w4:["74%","70%"]};
+    document.querySelectorAll("#s3 .balloon[data-balloon-id]").forEach(el=>{
+      const point=positions[el.dataset.balloonId];
+      if(point){
+        el.style.setProperty("left",point[0],"important");
+        el.style.setProperty("top",point[1],"important");
+      }
+    });
+  });
+}
+window.addEventListener("resize",placeStoryBalloons,{passive:true});
+window.addEventListener("orientationchange",placeStoryBalloons,{passive:true});
 function pop(e,id){
   if(!e||e.dataset.done)return;
   e.dataset.done="1";
@@ -1831,21 +1856,7 @@ function showReplies(){
 
 
 
-<script>
-(function(){
-  function place(){
-    if(window.innerWidth>600)return;
-    const pos={w1:["3%","34%"],w2:["79%","34%"],w3:["6%","70%"],w4:["74%","70%"]};
-    document.querySelectorAll("#s3 .balloon[data-balloon-id]").forEach(e=>{
-      const p=pos[e.dataset.balloonId];
-      if(p){e.style.setProperty("left",p[0],"important");e.style.setProperty("top",p[1],"important");}
-    });
-  }
-  window.addEventListener("resize",place,{passive:true});
-  window.addEventListener("orientationchange",()=>setTimeout(place,120),{passive:true});
-  setTimeout(place,80);
-})();
-</script>
+
 
 <section class="scene" id="s13"><div class="bg"></div><div class="content">
   <div style="font-size:95px">💝</div>
@@ -2503,5 +2514,103 @@ html,body{width:100%;max-width:100%;overflow:hidden!important;-webkit-text-size-
 }
 </style>
 
+
+<style id="siya-final-mobile-performance-v3">
+/* Final mobile override. This style is deliberately after all legacy style blocks. */
+@media screen and (max-width:700px){
+  html{
+    width:100%!important;height:100%!important;min-height:0!important;
+    overflow:hidden!important;overscroll-behavior:none!important;
+    -webkit-text-size-adjust:100%!important;scroll-behavior:auto!important;
+  }
+  body{
+    position:relative!important;width:100%!important;height:100%!important;
+    min-height:0!important;max-height:none!important;margin:0!important;
+    overflow:hidden!important;overscroll-behavior:none!important;
+  }
+  .scene,.scene.active{
+    position:absolute!important;inset:0!important;
+    display:flex!important;flex-direction:column!important;
+    align-items:center!important;justify-content:flex-start!important;
+    box-sizing:border-box!important;width:100%!important;max-width:100%!important;
+    height:100vh!important;height:100svh!important;
+    min-height:100vh!important;min-height:100svh!important;max-height:100svh!important;
+    padding:calc(12px + env(safe-area-inset-top,0px)) 12px calc(14px + env(safe-area-inset-bottom,0px))!important;
+    overflow-x:hidden!important;overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch!important;overscroll-behavior-y:contain!important;
+    overflow-anchor:none!important;scroll-behavior:auto!important;scrollbar-width:none!important;
+    transform:none!important;will-change:opacity!important;
+    transition:opacity .34s ease,visibility .34s ease!important;
+  }
+  .scene::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
+  .scene:not(.active){opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+  .scene.active{opacity:1!important;visibility:visible!important;pointer-events:auto!important}
+  .scene .content{
+    position:relative!important;inset:auto!important;
+    display:block!important;flex:0 0 auto!important;align-self:center!important;
+    width:100%!important;max-width:560px!important;min-width:0!important;
+    height:auto!important;min-height:0!important;max-height:none!important;
+    margin-block:auto!important;margin-inline:auto!important;
+    padding:clamp(12px,3.8vw,20px) clamp(10px,3.7vw,18px)!important;
+    overflow:visible!important;overflow-wrap:anywhere!important;
+    transform:none!important;animation:none!important;filter:none!important;opacity:1!important;
+    border:0!important;border-radius:0!important;outline:0!important;
+    background:transparent!important;box-shadow:none!important;
+    backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+  }
+  .scene .content>*{max-width:100%!important;min-width:0!important}
+  .scene h1{
+    max-width:100%!important;font-size:clamp(28px,8vw,42px)!important;
+    line-height:1.12!important;letter-spacing:-.35px!important;
+    overflow-wrap:anywhere!important;text-wrap:balance;
+  }
+  .scene p{
+    max-width:100%!important;font-size:clamp(15px,4.1vw,17px)!important;
+    line-height:1.52!important;overflow-wrap:anywhere!important;text-wrap:pretty;
+  }
+  .scene .kicker{
+    max-width:100%!important;font-size:9px!important;line-height:1.5!important;
+    letter-spacing:clamp(1px,.4vw,2px)!important;overflow-wrap:anywhere!important;
+  }
+  .scene .btn,.scene button.btn,.scene button{
+    position:relative!important;float:none!important;display:inline-flex!important;
+    align-items:center!important;justify-content:center!important;
+    width:auto!important;max-width:100%!important;min-height:46px!important;
+    margin:9px 4px 4px!important;padding:12px 15px!important;
+    font-size:12px!important;line-height:1.25!important;white-space:normal!important;
+    word-break:normal!important;touch-action:manipulation!important;
+    transition:transform .16s ease,box-shadow .2s ease,background-color .2s ease!important;
+  }
+  .scene .btn:active,.scene button:active{transform:scale(.975)!important}
+  .scene img,.scene video,.scene canvas{max-width:100%!important;height:auto}
+  .scene textarea,.scene input,.scene select{max-width:100%!important;font-size:16px!important}
+  .scene textarea{width:100%!important;min-height:110px}
+  #s8 .letter{max-height:55svh!important;overflow-y:auto!important;overscroll-behavior:contain!important}
+  #s9 .our-moments-envelope{width:100%!important;max-width:100%!important}
+  #s9 .om-photo-area img{max-width:100%!important;max-height:42svh!important;object-fit:contain!important}
+  #replyPhotoPreview{max-height:30svh!important}
+  #s11 .reply-actions{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:8px!important;width:100%!important}
+  #s11 .reply-actions .btn{width:100%!important;max-width:100%!important;min-height:46px!important;margin:0!important}
+  #s11 #open.btn{width:100%!important;max-width:320px!important}
+  /* Static ambient background and fewer particles keep lower-powered phones smooth. */
+  .scene.active .bg{animation:none!important;transform:none!important;will-change:auto!important}
+  body:after,.cinematic-particles,.cinematic-stars,.cinematic-heart,.message-spark{
+    display:none!important;animation:none!important;
+  }
+  .scene .gift,.scene .balloon,#s3 .balloon,.birthday-cake-icon,.opening-orbit,.birthday-sparkle{
+    animation:none!important;translate:none!important;
+  }
+  .scene .gift{transform:none!important}
+}
+@media screen and (max-width:380px){
+  .scene,.scene.active{padding-left:8px!important;padding-right:8px!important}
+  .scene .content{padding:11px 9px!important}
+  .scene .btn,.scene button.btn,.scene button{padding:11px 12px!important;font-size:11px!important}
+}
+@media screen and (prefers-reduced-motion:reduce){
+  .scene,.scene.active{transition:none!important;scroll-behavior:auto!important}
+  .scene.active .bg,.scene.active .content{animation:none!important}
+}
+</style>
 </body>
 </html>
