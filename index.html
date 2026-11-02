@@ -834,6 +834,22 @@ textarea{width:100%!important;max-width:100%!important;font-size:16px!important}
     transition-duration:.01ms!important;
   }
 }
+
+/* Restore the complete birthday letter and improve phone readability */
+#s8 .message-envelope{height:355px}
+#s8 .envelope-paper{padding:20px 22px}
+#s8 .typed-message{font-size:19px;line-height:1.65;letter-spacing:.1px}
+@media(max-width:600px){
+  #s8 .message-envelope{height:340px}
+  #s8 .envelope-paper{width:91%;height:88%;padding:18px 18px}
+  #s8 .typed-message{font-size:18px;line-height:1.65}
+}
+@media(max-width:380px){
+  #s8 .message-envelope{height:325px}
+  #s8 .envelope-paper{padding:16px 15px}
+  #s8 .typed-message{font-size:17px;line-height:1.62}
+}
+
 </style>
 <style>
 #s8 .letter{max-height:58vh;overflow-y:auto;line-height:1.65;text-align:left}
@@ -1913,10 +1929,16 @@ function showReplies(){
   if(!env||!out)return;
 
   const words=[
-    "Dear Siya ❤️,",
-    "Life gives us many memories, but some people become a beautiful part of those memories.",
-    "I'm glad to have you as a part of my journey.",
-    "Keep growing, keep laughing and never doubt how special you are. 🫶🏻"
+    "Dear Siya ❤️🎂,",
+    "Happy Birthday to someone who deserves all the happiness in the world. ✨",
+    "I don't know if you realize how special you are, but there's something about you that makes ordinary moments feel a little more beautiful.",
+    "Your smile, your little things, and the memories connected to you make you different from everyone else. 🫶🏻",
+    "On your special day, I just wish that life gives you countless reasons to smile, that your dreams come true, and that you always find people who genuinely care about you.",
+    "Maybe words can never explain everything, but I hope this little surprise makes you smile, even if just for a moment. 💌",
+    "And today, I just wanted to remind you of one thing: you're an amazing person, and I'm really lucky to have you as a friend. 🫶🏻",
+    "Keep smiling, keep shining, and always be the beautiful person you are. ✨",
+    "Once again, Happy Birthday, Siya! 🎀❤️",
+    "With lots of wishes and a little surprise, just for you. 💓"
   ];
 
   let opened=false, typing=false;
@@ -1939,7 +1961,7 @@ function showReplies(){
           out.textContent+=word[ci++];
           setTimeout(nextWord,22);
         }else{
-          out.textContent+=" ";
+          out.textContent+="\\n\\n";
           wi++;ci=0;
           const paper=out.parentElement;
           if(paper&&paper.scrollHeight>paper.clientHeight){
