@@ -1961,7 +1961,7 @@ function showReplies(){
           out.textContent+=word[ci++];
           setTimeout(nextWord,22);
         }else{
-          out.textContent+="\\n\\n";
+          out.textContent+="\n\n";
           wi++;ci=0;
           const paper=out.parentElement;
           if(paper&&paper.scrollHeight>paper.clientHeight){
