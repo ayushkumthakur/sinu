@@ -1499,6 +1499,73 @@ input::placeholder,textarea::placeholder{color:#cbb9cb!important;opacity:1}
   .fire{display:none!important}
 }
 </style>
+
+<style id="siya-letter-reading-v2">
+/* A calmer, roomier reading view for the birthday letter */
+#s8 .content{max-width:620px}
+#s8 .message-envelope-wrap{
+  width:min(100%,560px)!important;
+  margin:12px auto 10px!important;
+}
+#s8 .message-envelope{
+  height:clamp(410px,56svh,510px)!important;
+}
+#s8 .envelope-back{
+  padding:clamp(14px,4vw,22px)!important;
+}
+#s8 .envelope-paper{
+  width:100%!important;
+  height:100%!important;
+  padding:clamp(17px,4.3vw,24px)!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  scroll-behavior:smooth!important;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(88,49,52,.30) transparent;
+}
+#s8 .typed-message{
+  display:flex;
+  flex-direction:column;
+  gap:clamp(11px,2.8vw,15px);
+  white-space:normal!important;
+  text-align:left;
+  overflow-wrap:break-word;
+}
+#s8 .typed-message .letter-paragraph{
+  margin:0!important;
+  padding:0!important;
+  color:#4b2930;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(17px,4.5vw,19px)!important;
+  line-height:1.72!important;
+  letter-spacing:.08px;
+  text-align:left;
+  max-width:none!important;
+}
+#s8 .message-open-note{
+  margin:10px auto 14px!important;
+  font-size:14px!important;
+  line-height:1.5!important;
+}
+@media(max-width:700px){
+  #s8 .message-envelope{height:clamp(420px,57svh,520px)!important}
+  #s8 .message-envelope-wrap{width:100%!important}
+  #s8 .envelope-paper{border-radius:16px}
+  #s8 .typed-message .letter-paragraph{font-size:clamp(17px,4.6vw,19px)!important}
+}
+@media(max-width:380px){
+  #s8 .message-envelope{height:clamp(390px,56svh,480px)!important}
+  #s8 .envelope-back{padding:13px!important}
+  #s8 .envelope-paper{padding:16px!important}
+  #s8 .typed-message .letter-paragraph{font-size:17px!important;line-height:1.68!important}
+}
+@media(max-height:720px) and (max-width:700px){
+  #s8 .message-envelope{height:clamp(340px,53svh,430px)!important}
+}
+</style>
+
 </head>
 <body>
 
@@ -1947,40 +2014,53 @@ function showReplies(){
     if(!opened){
       opened=true;
       env.classList.add("open");
+      env.setAttribute("aria-expanded","true");
       note.textContent="A little message, just for you… 💓";
       typing=true;
-      out.textContent="";
-      out.style.transform="translateY(0)";
-      let wi=0,ci=0;
-      let scrollStep=0;
+      out.replaceChildren();
+      let wi=0,ci=0,currentParagraph=null;
 
       function nextWord(){
-        if(wi>=words.length){typing=false;note.textContent="Take your time… ❤️";return;}
+        if(wi>=words.length){
+          typing=false;
+          note.textContent="Take your time… ❤️";
+          return;
+        }
+        if(!currentParagraph){
+          currentParagraph=document.createElement("p");
+          currentParagraph.className="letter-paragraph";
+          out.appendChild(currentParagraph);
+        }
         const word=words[wi];
         if(ci<word.length){
-          out.textContent+=word[ci++];
-          setTimeout(nextWord,22);
+          currentParagraph.textContent+=word[ci++];
+          const paper=out.parentElement;
+          if(paper&&paper.scrollHeight>paper.clientHeight&&ci%4===0){
+            paper.scrollTop=paper.scrollHeight;
+          }
+          setTimeout(nextWord,20);
         }else{
-          out.textContent+="\n\n";
-          wi++;ci=0;
+          wi++;ci=0;currentParagraph=null;
           const paper=out.parentElement;
           if(paper&&paper.scrollHeight>paper.clientHeight){
-            const reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-            paper.scrollTo({top:paper.scrollHeight,behavior:reduced?"auto":"smooth"});
+            paper.scrollTo({top:paper.scrollHeight,behavior:"smooth"});
           }
-          setTimeout(nextWord,125);
+          setTimeout(nextWord,320);
         }
       }
-      setTimeout(nextWord,650);
+      setTimeout(nextWord,500);
     }else{
-      // Closing and reopening is allowed without changing any other slide.
       opened=false;
       env.classList.remove("open");
+      env.setAttribute("aria-expanded","false");
       note.textContent="A little message is waiting inside… ✨";
-      out.textContent="";
+      out.replaceChildren();
+      const paper=out.parentElement;
+      if(paper)paper.scrollTop=0;
     }
   }
 
+  env.setAttribute("aria-expanded","false");
   env.addEventListener("click",e=>{e.preventDefault();openMessage()});
   env.addEventListener("keydown",e=>{
     if(e.key==="Enter"||e.key===" "){e.preventDefault();openMessage()}
