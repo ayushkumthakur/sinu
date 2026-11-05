@@ -1782,24 +1782,7 @@ input::placeholder,textarea::placeholder{color:#cbb9cb!important;opacity:1}
   </div>
 </section>
 
-<section class="scene" id="s9"><div class="bg"></div><div class="content">
-<div class="kicker memory-kicker">A LITTLE MEMORY TO KEEP</div><div class="om-tap">Tap to open</div>
-<div class="our-moments-envelope" id="ourMomentsEnvelope" role="button" tabindex="0" aria-label="Our Little Moments">
-  <div class="om-inner">
-    <div class="om-photo-area"><div class="photo photo-real recipient-photo-box" id="recipientPhotoBox">
-  <div class="recipient-photo-placeholder" id="recipientPhotoPlaceholder">
-    <span class="upload-photo-icon">＋</span>
-    <strong>Add your favourite photo</strong>
-    <span>Choose a photo from your phone</span>
-    <label class="btn memory-photo-choose" for="recipientPhotoInput">Choose photo 📷</label><span id="photoUploadStatus" aria-live="polite"></span>
-  </div>
-  <img id="recipientPhotoPreview" alt="Your uploaded memory" hidden>
-  <input id="recipientPhotoInput" type="file" accept="image/*" aria-label="Upload a photo from your device">
-</div></div>
-    <div class="om-flap"></div>
-    <div class="om-label">Our Moments ✨</div>
-  </div>
-</div><p id="memoryPhotoStatus" class="photo-status" aria-live="polite">Photo preview only · online saving needs backend setup</p><button class="btn" id="momentsNextSlide" style="display:block;margin:18px auto 10px;position:relative;z-index:5" onclick="go(12)">Next slide →</button><p class="memory-text">Some moments may look small, but they become the memories we smile about later. Here’s to more laughter, silly little moments, and memories worth keeping. ❤️</p><button class="btn" onclick="go(12)">Final celebration 🎆</button></div></section>
+
 <section class="scene" id="s10"><div class="bg"></div><div class="content"><div style="font-size:105px">🎆</div><h1>Here's to you, Siya! 🎆</h1><p>May you always have reasons to laugh, dreams to chase and people who remind you how special you are. You deserve all the lovely things life has to offer. ❤️</p><button class="btn" onclick="go(11)">Leave a message 💬</button></div></section>
 <section class="scene" id="s11"><div class="bg"></div><div class="content"><div class="kicker">Your turn, if you'd like</div><h1 style="font-size:44px">Leave a little message?</h1><button id="open" class="btn" onclick="openReply()">Open reply box 💌</button><div id="replyBox" style="display:none;width:100%"><label class="sr-only" for="reply">Your message to Siya</label><textarea id="reply" placeholder="Write your reply here…" maxlength="2000"></textarea><div class="reply-photo-picker"><label class="btn photo-pick-btn" for="replyPhotoInput">Attach a photo 📷</label><input id="replyPhotoInput" type="file" accept="image/*" aria-label="Attach a photo to your message"><img id="replyPhotoPreview" alt="Selected photo preview" hidden><p id="replyPhotoStatus" aria-live="polite">Optional photo · maximum 5 MB</p></div><div class="reply-actions"><button class="btn" type="button" onclick="saveReply()">Send ❤️</button><button class="btn" type="button" onclick="showReplies()">View replies</button></div><div id="list" class="reply" aria-live="polite"></div></div></div></section>
 <script>
@@ -1824,7 +1807,7 @@ function updateStoryProgress(n){
   const progress=document.getElementById("storyProgress");
   const fill=document.getElementById("storyProgressFill");
   /* Story flow order differs from physical HTML order for the two extra slides. */
-  const order=[1,2,3,4,5,6,7,8,13,9,12,10,11];
+  const order=[1,2,3,4,5,6,7,8,13,12,10,11];
   const index=order.indexOf(Number(n));
   const total=order.length;
   const value=index>=0?index+1:1;
@@ -2103,7 +2086,7 @@ function showReplies(){
     <h2>One more little wish… ✨</h2>
     <p>I hope this year gives you a hundred reasons to smile, a few beautiful surprises, and memories that feel warm every time you think of them. 💓🎂✨</p>
   </div>
-  <button class="btn" onclick="go(9)">Continue ✨</button>
+  <button class="btn" onclick="go(12)">Continue ✨</button>
 </div></section>
 
 <section class="scene" id="s12">
@@ -2544,7 +2527,6 @@ button,.btn{cursor:pointer;}
     });
   }
   function setup(){
-    bindPhotoPicker("recipientPhotoInput","recipientPhotoPreview","memoryPhotoStatus","recipientPhotoPlaceholder",5*1024*1024,"Preview ready on this device only. Online saving needs backend setup.");
     bindPhotoPicker("replyPhotoInput","replyPhotoPreview","replyPhotoStatus",null,5*1024*1024,"Photo selected. It will only send after backend setup is complete.");
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setup,{once:true});else setup();
