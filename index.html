@@ -1852,7 +1852,7 @@ function go(n){
   active.setAttribute("aria-hidden","true");
   active.inert=true;
   const motionReduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  later(()=>{
+  const revealNext=()=>{
     current=n;
     next.scrollTop=0;
     next.classList.add("active");
@@ -1868,7 +1868,14 @@ function go(n){
       if(happy)happy.classList.add("show");
     },500);
     if(n===10)fireworks();
-  },motionReduced?0:220);
+  };
+  if(motionReduced){
+    revealNext();
+  }else if(window.matchMedia&&window.matchMedia("(max-width:700px)").matches&&typeof requestAnimationFrame==="function"){
+    requestAnimationFrame(revealNext);
+  }else{
+    later(revealNext,220);
+  }
 }
 function setupSpecial(){
   specialCount=0;
@@ -2850,5 +2857,47 @@ html,body{width:100%;max-width:100%;overflow:hidden!important;-webkit-text-size-
   .scene.active .bg,.scene.active .content{animation:none!important}
 }
 </style>
+
+<style id="siya-mobile-smooth-finish">
+/* Lightweight mobile interaction polish; keep the existing story and visual identity. */
+@media screen and (max-width:700px){
+  .scene,.scene.active{
+    transition:opacity .30s ease,visibility .30s ease!important;
+    transform:none!important;
+    will-change:opacity!important;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .scene .btn,.scene button.btn,.scene button{
+    min-height:48px!important;
+    min-width:44px!important;
+    touch-action:manipulation!important;
+    -webkit-tap-highlight-color:transparent!important;
+  }
+  .scene .gift{
+    animation:float 4.6s ease-in-out infinite!important;
+    will-change:transform;
+  }
+  #s3 .balloon{
+    display:grid!important;
+    place-items:center!important;
+    min-width:48px!important;
+    min-height:48px!important;
+    animation:balloonFloat 4.8s ease-in-out infinite!important;
+    will-change:transform,opacity;
+    touch-action:manipulation!important;
+  }
+  #s3 .balloon:nth-of-type(2){animation-delay:.25s!important}
+  #s3 .balloon:nth-of-type(3){animation-delay:.5s!important}
+  #s3 .balloon:nth-of-type(4){animation-delay:.75s!important}
+  .scene textarea{resize:vertical!important}
+}
+@media screen and (max-width:380px){
+  .scene .btn,.scene button.btn,.scene button{
+    min-height:48px!important;
+    padding:11px 12px!important;
+  }
+}
+</style>
+
 </body>
 </html>
