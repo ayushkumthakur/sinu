@@ -1564,6 +1564,31 @@ input::placeholder,textarea::placeholder{color:#cbb9cb!important;opacity:1}
 @media(max-height:720px) and (max-width:700px){
   #s8 .message-envelope{height:clamp(340px,53svh,430px)!important}
 }
+
+/* Letter readability polish: stronger weight and clearer contrast */
+#s8 .envelope-paper{
+  background:linear-gradient(145deg,#fffaf2 0%,#f8eadb 100%)!important;
+  color:#35212a!important;
+}
+#s8 .typed-message .letter-paragraph{
+  color:#35212a!important;
+  font-weight:600!important;
+  font-size:clamp(18px,4.6vw,20px)!important;
+  line-height:1.72!important;
+  letter-spacing:.12px!important;
+  text-shadow:0 0 transparent!important;
+}
+#s8 .typed-message .letter-paragraph:first-child{
+  font-weight:700!important;
+  color:#4a2633!important;
+}
+@media(max-width:380px){
+  #s8 .typed-message .letter-paragraph{
+    font-size:17.5px!important;
+    line-height:1.68!important;
+  }
+}
+
 </style>
 
 
