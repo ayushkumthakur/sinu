@@ -2035,10 +2035,10 @@ async function saveReply(){
 function showReplies(){
   const list=document.getElementById("list");
   if(!backendConfigured()){
-    list.textContent="Demo mode: replies cannot be retrieved yet. Connect and configure the Supabase read-replies function first.";
+    list.textContent="Reply viewing is not connected yet.";
     return;
   }
-  list.textContent="Reply viewing is not configured yet.";
+  list.textContent="Replies are saved privately. To view them, sign in to your Supabase dashboard and open Table Editor → birthday_replies. Private photo attachments are in Storage → birthday-reply-photos.";
 }
 </script>
 
@@ -2537,8 +2537,8 @@ button,.btn{cursor:pointer;}
 <script>
 /* Public project URL + anon key are intended for browser use. Never put service_role here. */
 window.SIYA_BACKEND = {
-  url: "",
-  anonKey: ""
+  url: "https://rmqerwcglrvzmvnwumqp.supabase.co",
+  anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJtcWVyd2NnbHJ2em12bnd1bXFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4ODYwNzgsImV4cCI6MjEwOTQ2MjA3OH0._fBBZfkJyOFXrlndWGqhmK5TlXiStXJYQbziVvJymPE"
 };
 </script>
 
