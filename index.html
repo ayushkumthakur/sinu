@@ -1784,7 +1784,7 @@ input::placeholder,textarea::placeholder{color:#cbb9cb!important;opacity:1}
 
 
 <section class="scene" id="s10"><div class="bg"></div><div class="content"><div style="font-size:105px">🎆</div><h1>Here's to you, Siya! 🎆</h1><p>May you always have reasons to laugh, dreams to chase and people who remind you how special you are. You deserve all the lovely things life has to offer. ❤️</p><button class="btn" onclick="go(11)">Leave a message 💬</button></div></section>
-<section class="scene" id="s11"><div class="bg"></div><div class="content"><div class="kicker">Your turn, if you'd like</div><h1 style="font-size:44px">Leave a little message?</h1><button id="open" class="btn" onclick="openReply()">Open reply box 💌</button><div id="replyBox" style="display:none;width:100%"><label class="sr-only" for="reply">Your message to Siya</label><textarea id="reply" placeholder="Write your reply here…" maxlength="2000"></textarea><div class="reply-photo-picker"><label class="btn photo-pick-btn" for="replyPhotoInput">Attach a photo 📷</label><input id="replyPhotoInput" type="file" accept="image/*" aria-label="Attach a photo to your message"><img id="replyPhotoPreview" alt="Selected photo preview" hidden><p id="replyPhotoStatus" aria-live="polite">Optional photo · maximum 5 MB</p></div><div class="reply-actions"><button class="btn" type="button" onclick="saveReply()">Send ❤️</button><button class="btn" type="button" onclick="showReplies()">View replies</button></div><div id="list" class="reply" aria-live="polite"></div></div></div></section>
+<section class="scene" id="s11"><div class="bg"></div><div class="content"><div class="kicker">Your turn, if you'd like</div><h1 style="font-size:44px">Leave a little message?</h1><button id="open" class="btn" onclick="openReply()">Open reply box 💌</button><div id="replyBox" style="display:none;width:100%"><label class="sr-only" for="reply">Your message to Siya</label><textarea id="reply" placeholder="Write your reply here…" maxlength="2000"></textarea><div class="reply-photo-picker"><label class="btn photo-pick-btn" for="replyPhotoInput">Attach a photo 📷</label><input id="replyPhotoInput" type="file" accept="image/jpeg,image/png,image/webp,image/gif" aria-label="Attach a JPG, PNG, WEBP or GIF photo to your message"><img id="replyPhotoPreview" alt="Selected photo preview" hidden><p id="replyPhotoStatus" aria-live="polite">JPG, PNG, WEBP or GIF · max 5 MB</p></div><div class="reply-actions"><button class="btn" type="button" onclick="saveReply()">Send ❤️</button><button class="btn" type="button" onclick="showReplies()">View replies</button></div><div id="list" class="reply" aria-live="polite"></div></div></div></section>
 <script>
 let current=1,specialCount=0,candleCount=0,timer=null,countdownInterval=null,changing=false;
 const sceneTimeouts=new Set();
@@ -1846,6 +1846,9 @@ function go(n){
   const next=document.getElementById("s"+n);
   const active=document.getElementById("s"+current);
   if(!next||!active||next===active)return;
+  if(current===8&&typeof window.cancelSiyaLetterTyping==="function"){
+    window.cancelSiyaLetterTyping();
+  }
   clearSceneTimers();
   changing=true;
   active.classList.remove("active");
@@ -1990,7 +1993,12 @@ function openReply(){
   if(button)button.style.display="none";
   showReplies();
   const field=document.getElementById("reply");
-  if(field)field.focus({preventScroll:true});
+  if(field){
+    field.focus({preventScroll:true});
+    if(window.matchMedia&&window.matchMedia("(max-width:700px)").matches){
+      window.setTimeout(()=>field.scrollIntoView({behavior:"smooth",block:"center"}),220);
+    }
+  }
 }
 function readReplies(){try{const raw=localStorage.getItem("siyaReplies");const parsed=raw?JSON.parse(raw):[];return Array.isArray(parsed)?parsed.filter(x=>x&&typeof x.text==="string"&&typeof x.time==="string").slice(-50):[]}catch(e){return []}}
 function backendConfigured(){
@@ -2017,7 +2025,8 @@ async function saveReply(){
   try{
     let photoData=null;
     if(photoFile){
-      if(!photoFile.type.startsWith("image/")) throw new Error("Please choose a valid image file.");
+      const allowedPhotoTypes=new Set(["image/jpeg","image/png","image/webp","image/gif"]);
+      if(!allowedPhotoTypes.has(photoFile.type.toLowerCase())) throw new Error("Please attach a JPG, PNG, WEBP or GIF image.");
       if(photoFile.size>5*1024*1024) throw new Error("Please choose an image under 5 MB.");
       photoData={name:photoFile.name,type:photoFile.type,data:await new Promise((resolve,reject)=>{
         const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(",")[1]);reader.onerror=()=>reject(new Error("Could not read that photo."));reader.readAsDataURL(photoFile);
@@ -2151,7 +2160,18 @@ function showReplies(){
     "Just for you. 💓"
   ];
 
-  let opened=false, typing=false;
+  let opened=false, typing=false, typingTimer=null;
+  function scheduleTyping(delay){
+    if(typingTimer)window.clearTimeout(typingTimer);
+    typingTimer=window.setTimeout(()=>{
+      typingTimer=null;
+      nextWord();
+    },delay);
+  }
+  window.cancelSiyaLetterTyping=function(){
+    if(typingTimer){window.clearTimeout(typingTimer);typingTimer=null;}
+    typing=false;
+  };
   function openMessage(){
     if(typing)return;
     if(!opened){
@@ -2181,17 +2201,17 @@ function showReplies(){
           if(paper&&paper.scrollHeight>paper.clientHeight&&ci%4===0){
             paper.scrollTop=paper.scrollHeight;
           }
-          setTimeout(nextWord,20);
+          scheduleTyping(20);
         }else{
           wi++;ci=0;currentParagraph=null;
           const paper=out.parentElement;
           if(paper&&paper.scrollHeight>paper.clientHeight){
-            paper.scrollTo({top:paper.scrollHeight,behavior:"smooth"});
+            paper.scrollTo({top:paper.scrollHeight,behavior:window.matchMedia&&window.matchMedia("(max-width:700px)").matches?"auto":"smooth"});
           }
-          setTimeout(nextWord,320);
+          scheduleTyping(320);
         }
       }
-      setTimeout(nextWord,500);
+      scheduleTyping(500);
     }else{
       opened=false;
       env.classList.remove("open");
@@ -2518,7 +2538,8 @@ button,.btn{cursor:pointer;}
     if(!input||!preview)return;
     input.addEventListener("change",function(){
       var file=input.files&&input.files[0]; if(!file)return;
-      if(!file.type||file.type.indexOf("image/")!==0){input.value="";if(status)status.textContent="Please choose an image file.";return;}
+      var allowedTypes=["image/jpeg","image/png","image/webp","image/gif"];
+      if(!file.type||allowedTypes.indexOf(file.type.toLowerCase())===-1){input.value="";if(status)status.textContent="Use a JPG, PNG, WEBP or GIF image.";return;}
       if(file.size>maxBytes){input.value="";if(status)status.textContent="Choose an image under "+Math.round(maxBytes/1024/1024)+" MB.";return;}
       try{
         if(preview.dataset.objectUrl)URL.revokeObjectURL(preview.dataset.objectUrl);
@@ -2534,7 +2555,7 @@ button,.btn{cursor:pointer;}
     });
   }
   function setup(){
-    bindPhotoPicker("replyPhotoInput","replyPhotoPreview","replyPhotoStatus",null,5*1024*1024,"Photo selected. It will only send after backend setup is complete.");
+    bindPhotoPicker("replyPhotoInput","replyPhotoPreview","replyPhotoStatus",null,5*1024*1024,"Photo ready to attach.");
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setup,{once:true});else setup();
 })();
@@ -2866,6 +2887,10 @@ html,body{width:100%;max-width:100%;overflow:hidden!important;-webkit-text-size-
     transform:none!important;
     will-change:opacity!important;
     -webkit-tap-highlight-color:transparent;
+  }
+  @supports (height:100dvh){
+    html,body{height:100dvh!important;min-height:100dvh!important}
+    .scene,.scene.active{height:100dvh!important;min-height:100dvh!important;max-height:100dvh!important}
   }
   .scene .btn,.scene button.btn,.scene button{
     min-height:48px!important;
