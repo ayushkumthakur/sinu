@@ -971,8 +971,6 @@ input,textarea{color:var(--paper)!important;background:#ffffff0b!important;borde
 .scene:not(#s1) .content:before{display:none!important;content:none!important;margin:0!important}
 </style>
 
-
-
 <style id="siya-grand-finale-v1">
 /* Final scene only: preserve the existing story; add a teal-and-gold cinematic ending. */
 #s14 .bg{background:radial-gradient(ellipse at 50% 38%,#235660 0%,#103841 39%,#071f27 72%,#030b10 100%)!important;animation:none!important;}
@@ -997,7 +995,6 @@ input,textarea{color:var(--paper)!important;background:#ffffff0b!important;borde
 #s14 .finale-actions .finale-replay{border-color:#ffffff35;color:#eadfca;background:#ffffff0b;}
 .finale-invite{font-size:14px!important;color:#e9cf9e!important;margin:16px auto 4px!important;}
 .finale-launch{border-color:#eacb8b99!important;background:linear-gradient(135deg,#f0c9872b,#ffffff0d)!important;color:#fff1d1!important;}
-.fire{z-index:60!important;width:5px;height:5px;pointer-events:none!important;}
 @keyframes countdownPop{0%{opacity:0;transform:scale(.55) translateY(14px);filter:blur(8px)}35%{opacity:1;filter:blur(0)}100%{opacity:1;transform:scale(1) translateY(0)}}
 @keyframes finaleTitleGlow{0%{background-position:0% 50%;filter:drop-shadow(0 4px 16px #e6bd7420)}100%{background-position:100% 50%;filter:drop-shadow(0 4px 30px #e6bd7460)}}
 @keyframes finaleTwinkle{from{opacity:.32;transform:translateY(0)}to{opacity:.9;transform:translateY(-5px)}}
@@ -1018,45 +1015,116 @@ input,textarea{color:var(--paper)!important;background:#ffffff0b!important;borde
 }
 </style>
 
-
-<style id="clean-opening-screen-v1">
-/* Clean opening: remove repeated labels and extra ornaments while preserving the film's palette. */
-#s1 .content:before{display:none!important;content:none!important;margin:0!important}
-#s1 .opening-orbit,#s1 .kicker,#s1 .opening-signoff{display:none!important}
-#s1 .content.opening-clean{width:min(560px,90vw)!important;max-width:560px!important;padding:clamp(34px,7vh,58px) clamp(22px,6vw,42px)!important;text-align:center!important}
-#s1 .content.opening-clean h1{font-size:clamp(54px,12vw,78px)!important;line-height:1.02!important;margin:0 0 20px!important;letter-spacing:-1px!important}
-#s1 .content.opening-clean p{max-width:420px!important;margin:0 auto 22px!important;font-size:clamp(16px,4vw,20px)!important;line-height:1.6!important;color:#e8dde8!important}
-#s1 .content.opening-clean .btn{min-height:50px!important;margin:8px auto 0!important;padding:14px 28px!important;letter-spacing:1.1px!important}
-body:has(#s1.active) .cinematic-heart{display:none!important}
+<style id="siya-cake-redesign-v1">
+/* Champagne vanilla + blush strawberry cake — cake slide only */
+#s5 .cake-scene-glow{
+  background:radial-gradient(ellipse,rgba(255,206,182,.22) 0%,rgba(255,224,189,.10) 42%,transparent 72%)!important;
+  filter:blur(4px);
+}
+#s5 .cake-spotlight{
+  background:radial-gradient(circle,rgba(255,224,185,.30) 0%,rgba(235,169,173,.12) 38%,transparent 70%)!important;
+}
+#s5 .cake{
+  filter:drop-shadow(0 25px 35px rgba(8,3,12,.55)) drop-shadow(0 0 20px rgba(232,177,151,.12))!important;
+}
+#s5 .plate{
+  background:linear-gradient(180deg,#fffaf0 0%,#e5c18b 24%,#fff0d8 48%,#bd925b 100%)!important;
+  border:1px solid rgba(255,225,170,.95)!important;
+  box-shadow:0 5px 0 rgba(116,69,40,.36),0 10px 22px rgba(0,0,0,.24),inset 0 2px 5px #fff!important;
+}
+#s5 .tier{
+  background:
+    radial-gradient(ellipse at 50% 8%,rgba(255,255,255,.85),transparent 48%),
+    linear-gradient(180deg,#fff5e8 0%,#f3d9cc 42%,#e8b9b0 74%,#c98786 100%)!important;
+  border:1px solid rgba(255,238,218,.95)!important;
+  box-shadow:inset 0 -10px 0 rgba(177,104,102,.24),inset 0 7px 13px rgba(255,255,255,.72),0 10px 16px rgba(0,0,0,.30)!important;
+  border-radius:20px 20px 27px 27px!important;
+}
+#s5 .tier:before{
+  left:13px!important;right:13px!important;bottom:15px!important;
+  height:5px!important;border-radius:8px!important;
+  background:linear-gradient(90deg,#d4a65e,#fff0c9,#d4a65e)!important;
+  box-shadow:0 0 8px rgba(255,225,166,.45)!important;
+}
+#s5 .tier:after{
+  content:""!important;position:absolute!important;left:17px!important;right:17px!important;bottom:5px!important;
+  height:8px!important;border-radius:50%!important;
+  background:radial-gradient(circle at 4px 4px,#fff6e9 0 2px,transparent 2.7px) 0 0/15px 8px repeat-x!important;
+  opacity:.95!important;
+}
+#s5 .tier2{
+  background:
+    radial-gradient(ellipse at 50% 7%,rgba(255,255,255,.9),transparent 53%),
+    linear-gradient(180deg,#ffe9e0 0%,#edc0bd 50%,#cf929b 100%)!important;
+  border:1px solid rgba(255,234,220,.98)!important;
+  box-shadow:inset 0 -9px 0 rgba(167,91,103,.20),inset 0 5px 10px rgba(255,255,255,.65),0 8px 12px rgba(0,0,0,.25)!important;
+  border-radius:19px 19px 24px 24px!important;
+}
+#s5 .tier2:before{
+  background:linear-gradient(180deg,#fff8ec 0%,#f7dfd1 70%,#e9b6b1 100%)!important;
+  box-shadow:inset 0 2px 4px #fff!important;
+}
+#s5 .tier2:after{
+  content:""!important;position:absolute!important;left:12px!important;right:12px!important;bottom:7px!important;
+  height:7px!important;border-radius:50%!important;
+  background:radial-gradient(circle at 3.5px 3.5px,#fff5e5 0 1.8px,transparent 2.5px) 0 0/13px 7px repeat-x!important;
+}
+#s5 .icing{
+  background:linear-gradient(180deg,#fffaf0 0%,#f7dfd1 62%,#e9b6b1 100%)!important;
+  box-shadow:0 5px 0 rgba(191,121,120,.52),inset 0 2px 5px #fff!important;
+}
+#s5 .icing:after{
+  left:24px!important;top:23px!important;width:12px!important;height:17px!important;
+  border-radius:0 0 10px 10px!important;background:#fff1e4!important;
+  box-shadow:42px 2px 0 #fff1e4,88px -1px 0 #fff1e4,137px 3px 0 #fff1e4,178px 0 0 #fff1e4!important;
+}
+#s5 .decor{color:#ffedc7!important;text-shadow:0 1px 5px rgba(154,91,67,.35)!important}
+#s5 .d2,#s5 .d4{color:#b75c74!important}
+#s5 .cherry{
+  width:13px!important;height:16px!important;border-radius:75% 75% 85% 85%!important;
+  background:linear-gradient(145deg,#ffb4ad 0%,#d95b70 58%,#96394f 100%)!important;
+  box-shadow:inset -2px -2px 4px rgba(88,21,40,.25),0 2px 5px rgba(0,0,0,.22)!important;
+}
+#s5 .cherry:before{
+  border-top:2px solid #84935b!important;
+  border-left:2px solid #84935b!important;
+  width:9px!important;height:7px!important;left:4px!important;top:-5px!important;
+}
+#s5 .ganache-shine{
+  height:7px!important;bottom:145px!important;
+  background:linear-gradient(90deg,transparent,#fff0bd 12%,#c49450 28%,#fff3ca 50%,#c49450 72%,#fff0bd 88%,transparent)!important;
+  box-shadow:0 1px 3px rgba(105,65,33,.18)!important;
+  transform:rotate(-2deg)!important;
+}
+#s5 .choco-shavings{display:none!important}
+#s5 .candle{
+  width:13px!important;height:47px!important;border-radius:5px!important;
+  background:repeating-linear-gradient(90deg,#fff9eb 0 4px,#d6aa65 4px 7px,#f8e4d0 7px 10px)!important;
+  border:1px solid rgba(174,125,68,.55)!important;
+  box-shadow:0 2px 5px rgba(0,0,0,.25),inset 0 0 4px #fff!important;
+}
+#s5 .flame{
+  background:radial-gradient(circle,#fffbe5 0 18%,#ffd778 42%,#f28c50 68%,transparent 73%)!important;
+  filter:drop-shadow(0 0 8px rgba(255,190,90,.8))!important;
+}
+#s5 .smoke{background:#fff0d9!important}
+#s5 #ch{color:#f4dfd6!important}
+#s5 h1{color:#ffe8d8!important;text-shadow:0 2px 22px rgba(240,178,157,.22)!important}
 @media(max-width:600px){
-  #s1 .content.opening-clean{width:calc(100vw - 42px)!important;padding:38px 22px!important}
-  #s1 .content.opening-clean h1{font-size:clamp(52px,14vw,68px)!important;margin-bottom:16px!important}
-  #s1 .content.opening-clean p{font-size:16px!important;margin-bottom:18px!important}
+  #s5 .cake{transform:scale(.88)!important;transform-origin:center center!important;margin-top:-4px!important;margin-bottom:-8px!important}
+  #s5 .cake-spotlight{width:300px!important;height:300px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  #s5 .cake-spotlight{animation:none!important}
+  #s5 .flame{animation:none!important}
 }
 </style>
 
-<style id="restore-opening-surprise-kicker">
-/* Restore the requested opening line while keeping the rest of the intro clean. */
-#s1 .content.opening-clean .opening-surprise-kicker{
-  display:block!important;
-  margin:0 auto 18px!important;
-  color:#f5ddb1!important;
-  font:600 10px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif!important;
-  letter-spacing:clamp(1.6px,.55vw,3.2px)!important;
-  text-transform:uppercase!important;
-  text-shadow:0 0 16px rgba(245,221,177,.22);
-}
-@media(max-width:600px){
-  #s1 .content.opening-clean .opening-surprise-kicker{font-size:9px!important;letter-spacing:1.5px!important;margin-bottom:16px!important;}
-}
-</style>
 </head>
 <body>
 <div class="message-spark ms1"></div><div class="message-spark ms2"></div><div class="message-spark ms3"></div><div class="message-spark ms4"></div>
 <div class="cinematic-stars"><b></b><b></b><b></b><b></b><b></b><b></b></div>
-<div class="story-progress" id="storyProgress" role="progressbar" aria-label="Birthday story progress" aria-valuemin="1" aria-valuemax="13" aria-valuenow="1" aria-valuetext="Step 1 of 13">
-  <span class="story-progress-fill" id="storyProgressFill"></span>
-</div>
+<div class="cinematic-intro"><div class="intro-text">A Special Day for Someone Special ✨</div></div>
 <div class="cinematic-particles"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 <div class="cinematic-heart">♥</div>
 
@@ -1065,7 +1133,7 @@ body:has(#s1.active) .cinematic-heart{display:none!important}
 <div class="firework fw2"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
 <div class="firework fw3"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
 
-<section class="scene active" id="s1" aria-label="Birthday story introduction"><div class="bg"></div><div class="content opening-clean"><div class="kicker opening-surprise-kicker">A LITTLE SURPRISE, JUST FOR YOU</div><h1>Siya</h1><p>A little birthday story, made just for you.</p><button class="btn" type="button" onclick="go(2)">Begin the story</button></div></section>
+<section class="scene active" id="s1"><div class="bg"></div><div class="content"><div class="opening-orbit" aria-hidden="true">✦ <span>✧</span> ✦</div><div class="kicker">A LITTLE SURPRISE, JUST FOR YOU</div><h1>Siya…</h1><p>Tonight, let's leave the ordinary world behind and make a few little memories of our own.</p><div class="opening-signoff">A little story made with care <span>♥</span></div><button class="btn" onclick="go(2)">Step into the story ✨</button></div></section>
 <section class="scene" id="s2"><div class="bg"></div><div class="content"><div class="gift" role="button" tabindex="0" aria-label="Open the gift" onclick="go(3)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();go(3)}">🎁</div><h1>A tiny box of happiness</h1><p>There's a little joy waiting inside. Tap the gift to see what comes next.</p></div></section>
 <section class="scene" id="s3"><div class="bg"></div><div class="content"><div class="kicker">Four things you should know</div><h1 style="font-size:42px">A little reminder for you</h1><div class="words"><span id="w1" class="word">YOU</span><span id="w2" class="word">MAKE</span><span id="w3" class="word">LIFE</span><span id="w4" class="word">BRIGHT</span></div><p id="hint" class="hint">Pop each balloon to reveal a little truth…</p><div id="next" class="next"><p style="font-size:16px">Your four little reminders are ready. Shall we continue? ✨</p><button class="btn" onclick="nextSpecial()">Next →</button><div id="timer" class="timer"></div></div></div></section>
 <section class="scene" id="s4"><div class="bg"></div><div class="content"><div style="font-size:90px">✨</div><h1>Take a little breath</h1><p>You don't have to rush through the beautiful parts. Stay here for a second, then make a wish.</p><button class="btn" onclick="go(5)">Make a wish ❤️</button></div></section>
@@ -1101,88 +1169,86 @@ body:has(#s1.active) .cinematic-heart{display:none!important}
   </div>
 </section>
 
-
 <section class="scene" id="s10"><div class="bg"></div><div class="content"><div style="font-size:105px">🎆</div><h1>Here's to you, Siya! 🎆</h1><p>May you always have reasons to laugh, dreams to chase and people who remind you how special you are. You deserve all the lovely things life has to offer. ❤️</p><button class="btn" onclick="go(11)">Leave a message 💬</button></div></section>
-<section class="scene" id="s11"><div class="bg"></div><div class="content"><div class="kicker">Your turn, if you'd like</div><h1 style="font-size:44px">Leave a little message?</h1><button id="open" class="btn" onclick="openReply()">Open reply box 💌</button><div id="replyBox" style="display:none;width:100%"><label class="sr-only" for="reply">Your message to Siya</label><textarea id="reply" placeholder="Write your reply here…" maxlength="2000"></textarea><div class="reply-photo-picker"><label class="btn photo-pick-btn" for="replyPhotoInput">Attach a photo 📷</label><input id="replyPhotoInput" type="file" accept="image/*" aria-label="Attach a photo to your message"><img id="replyPhotoPreview" alt="Selected photo preview" hidden><p id="replyPhotoStatus" aria-live="polite">Optional photo · maximum 5 MB</p></div><div class="reply-actions"><button class="btn" type="button" onclick="saveReply()">Send ❤️</button><button class="btn" type="button" onclick="clearReplyForm()">Clear draft</button></div><div id="list" class="reply" aria-live="polite"></div></div>
-  <p class="finale-invite">One last little surprise is waiting… ✨</p>
-  <button class="btn finale-launch" type="button" onclick="go(14)">Finish &amp; celebrate 🎆</button>
-</div></section>
+<section class="scene" id="s11"><div class="bg"></div><div class="content"><div class="kicker">Your turn, if you'd like</div><h1 style="font-size:44px">Leave a little message?</h1><button id="open" class="btn" onclick="openReply()">Open reply box 💌</button><div id="replyBox" style="display:none;width:100%"><label class="sr-only" for="reply">Your message to Siya</label><textarea id="reply" placeholder="Write your reply here…" maxlength="2000"></textarea><div class="reply-photo-picker"><label class="btn photo-pick-btn" for="replyPhotoInput">Attach a photo 📷</label><input id="replyPhotoInput" type="file" accept="image/*" aria-label="Attach a photo to your message"><img id="replyPhotoPreview" alt="Selected photo preview" hidden><p id="replyPhotoStatus" aria-live="polite">Optional photo · maximum 5 MB</p></div><div class="reply-actions"><button class="btn" type="button" onclick="saveReply()">Send ❤️</button><button class="btn" type="button" onclick="showReplies()">View replies</button></div><div id="list" class="reply" aria-live="polite"></div></div><button class="btn" type="button" onclick="go(14)">Finish the story ✨</button></div></section>
 <script>
 let current=1,specialCount=0,candleCount=0,timer=null,countdownInterval=null,finaleInterval=null,changing=false;
 function clearSceneTimers(){if(timer){clearTimeout(timer);timer=null}if(countdownInterval){clearInterval(countdownInterval);countdownInterval=null}if(finaleInterval){clearInterval(finaleInterval);finaleInterval=null}}
-const STORY_ORDER=[1,2,3,4,5,6,7,8,13,12,10,11,14];
-function updateStoryProgress(sceneNumber){
-  const bar=document.getElementById("storyProgress");
-  const fill=document.getElementById("storyProgressFill");
-  if(!bar||!fill)return;
-  const step=Math.max(1,STORY_ORDER.indexOf(Number(sceneNumber))+1);
-  fill.style.width=(step/STORY_ORDER.length*100)+"%";
-  bar.setAttribute("aria-valuenow",String(step));
-  bar.setAttribute("aria-valuetext","Step "+step+" of "+STORY_ORDER.length);
-}
-function go(n){if(changing)return;const next=document.getElementById("s"+n),active=document.getElementById("s"+current);if(!next||!active)return;clearSceneTimers();changing=true;active.classList.remove("active");setTimeout(()=>{current=n;next.scrollTop=0;next.classList.add("active");updateStoryProgress(n);changing=false;if(n===3)setupSpecial();if(n===5)setupCake();if(n===6)setTimeout(()=>{const happy=document.getElementById("happy");if(happy)happy.classList.add("show")},700);if(n===10)fireworks();if(n===14)startGrandFinale()},500)}
+function go(n){if(changing)return;const next=document.getElementById("s"+n),active=document.getElementById("s"+current);if(!next||!active)return;clearSceneTimers();changing=true;active.classList.remove("active");setTimeout(()=>{current=n;next.scrollTop=0;next.classList.add("active");changing=false;if(n===3)setupSpecial();if(n===5)setupCake();if(n===6)setTimeout(()=>{const happy=document.getElementById("happy");if(happy)happy.classList.add("show")},700);if(n===10)fireworks();if(n===14)startGrandFinale()},500)}
 function setupSpecial(){specialCount=0;document.querySelectorAll(".balloon").forEach(x=>x.remove());["w1","w2","w3","w4"].forEach(x=>document.getElementById(x).classList.remove("show"));document.getElementById("next").classList.remove("show");document.getElementById("timer").textContent="";document.getElementById("hint").textContent="Tap a balloon…";let scene=document.getElementById("s3");[["w1","12%","25%"],["w2","72%","25%"],["w3","12%","62%"],["w4","72%","62%"]].forEach(v=>{let e=document.createElement("div");e.className="balloon";e.textContent="🎈";e.style.left=v[1];e.style.top=v[2];e.dataset.balloonId=v[0];e.onclick=()=>pop(e,v[0]);scene.appendChild(e);if(window.innerWidth<=600){const p={w1:["3%","34%"],w2:["79%","34%"],w3:["6%","70%"],w4:["74%","70%"]}[v[0]];if(p){e.style.setProperty("left",p[0],"important");e.style.setProperty("top",p[1],"important");}}})}
 function pop(e,id){if(e.dataset.done)return;e.dataset.done=1;e.style.transform="scale(1.5)";e.style.opacity=0;setTimeout(()=>e.remove(),850);setTimeout(()=>document.getElementById(id).classList.add("show"),350);specialCount++;document.getElementById("hint").textContent=specialCount<4?"Another little word is hiding…":"YOU ARE SO SPECIAL ❤️";if(specialCount===4)setTimeout(startCountdown,1400)}
 function startCountdown(){clearSceneTimers();document.getElementById("next").classList.add("show");let left=3;document.getElementById("timer").textContent="Moving on in 3…";countdownInterval=setInterval(()=>{left--;if(left>0)document.getElementById("timer").textContent="Moving on in "+left+"…";else{clearSceneTimers();go(4)}},1000);timer=setTimeout(()=>go(4),3300)}
 function nextSpecial(){clearSceneTimers();go(4)}
 function setupCake(){candleCount=0;document.querySelectorAll(".candle").forEach(x=>x.classList.remove("off"));document.getElementById("ch").textContent="Tap each candle to blow it out."}
 function candleOff(e){if(e.classList.contains("off"))return;e.classList.add("off");candleCount++;document.getElementById("ch").textContent=candleCount<3?"One more candle…":"All the candles are out. ✨";if(candleCount===3)setTimeout(()=>go(6),2800)}
-function fireworks(){
+function fireworks(){const mobile=window.matchMedia("(max-width: 600px)").matches;const burstCount=mobile?3:5;const particleCount=mobile?16:30;for(let k=0;k<burstCount;k++)setTimeout(()=>{for(let i=0;i<particleCount;i++){let e=document.createElement("i");e.className="fire";e.style.left=(20+Math.random()*60)+"vw";e.style.top=(15+Math.random()*45)+"vh";let a=Math.random()*Math.PI*2,r=70+Math.random()*220;e.style.setProperty("--x",Math.cos(a)*r+"px");e.style.setProperty("--y",Math.sin(a)*r+"px");document.body.appendChild(e);setTimeout(()=>e.remove(),2100)}},k*500)}
+function grandFinaleFireworks(){
   const mobile=window.matchMedia("(max-width: 600px)").matches;
-  const burstCount=mobile?3:5, particleCount=mobile?14:24;
-  const colors=["#f0c987","#fff0c2","#e9b7a5","#9ed8d0","#ffffff"];
+  const burstCount=mobile?4:7;
+  const particleCount=mobile?20:32;
+  const colors=["#f0c987","#fff0c2","#e9b86f","#fff8e8"];
   for(let k=0;k<burstCount;k++)setTimeout(()=>{
-    const originX=12+Math.random()*76, originY=13+Math.random()*40;
+    const originX=12+Math.random()*76;
+    const originY=12+Math.random()*42;
     for(let i=0;i<particleCount;i++){
-      const e=document.createElement("i"), color=colors[(i+k)%colors.length];
-      e.className="fire"; e.style.left=originX+"vw"; e.style.top=originY+"vh";
-      e.style.background=color; e.style.color=color;
-      e.style.boxShadow="0 0 8px "+color+",0 0 16px "+color;
-      const a=(Math.PI*2*i/particleCount)+(Math.random()-.5)*.22;
-      const r=(mobile?65:95)+Math.random()*(mobile?95:155);
-      e.style.setProperty("--x",Math.cos(a)*r+"px");
-      e.style.setProperty("--y",Math.sin(a)*r+"px");
-      document.body.appendChild(e); setTimeout(()=>e.remove(),2200);
+      const e=document.createElement("i");
+      const color=colors[(i+k)%colors.length];
+      e.className="fire";
+      e.style.zIndex="60";
+      e.style.pointerEvents="none";
+      e.style.width="5px";
+      e.style.height="5px";
+      e.style.left=originX+"vw";
+      e.style.top=originY+"vh";
+      e.style.background=color;
+      e.style.boxShadow="0 0 8px "+color+",0 0 18px "+color;
+      const angle=(Math.PI*2*i/particleCount)+(Math.random()-.5)*.18;
+      const radius=(mobile?70:100)+Math.random()*(mobile?100:170);
+      e.style.setProperty("--x",Math.cos(angle)*radius+"px");
+      e.style.setProperty("--y",Math.sin(angle)*radius+"px");
+      document.body.appendChild(e);
+      setTimeout(()=>e.remove(),2200);
     }
-  },k*420);
+  },k*360);
 }
 function startGrandFinale(){
   clearSceneTimers();
   const countdown=document.getElementById("finaleCountdown");
   const reveal=document.getElementById("finaleReveal");
   if(!countdown||!reveal)return;
-  reveal.hidden=true; countdown.hidden=false;
+  reveal.hidden=true;
+  countdown.hidden=false;
   let left=5;
   const showNumber=()=>{
     countdown.textContent=String(left);
     countdown.setAttribute("aria-label","Celebration begins in "+left);
-    countdown.classList.remove("countdown-pop"); void countdown.offsetWidth;
+    countdown.classList.remove("countdown-pop");
+    void countdown.offsetWidth;
     countdown.classList.add("countdown-pop");
   };
   showNumber();
   countdownInterval=setInterval(()=>{
     left--;
     if(left>0){showNumber();return;}
-    clearInterval(countdownInterval); countdownInterval=null;
-    countdown.hidden=true; reveal.hidden=false;
-    reveal.classList.remove("finale-reveal-in"); void reveal.offsetWidth;
+    clearInterval(countdownInterval);
+    countdownInterval=null;
+    countdown.hidden=true;
+    reveal.hidden=false;
+    reveal.classList.remove("finale-reveal-in");
+    void reveal.offsetWidth;
     reveal.classList.add("finale-reveal-in");
-    fireworks();
-    finaleInterval=setInterval(()=>{if(current!==14){clearInterval(finaleInterval);finaleInterval=null;return;}fireworks();},3100);
+    grandFinaleFireworks();
+    finaleInterval=setInterval(()=>{
+      if(current!==14){clearInterval(finaleInterval);finaleInterval=null;return;}
+      grandFinaleFireworks();
+    },3200);
   },1000);
 }
 function replayGrandFinale(){
   clearSceneTimers();
   startGrandFinale();
 }
-function openReply(){
-  const box=document.getElementById("replyBox");
-  const opener=document.getElementById("open");
-  if(box)box.style.display="block";
-  if(opener)opener.style.display="none";
-  const field=document.getElementById("reply");
-  if(field)setTimeout(()=>field.focus({preventScroll:true}),80);
-}
+function openReply(){document.getElementById("replyBox").style.display="block";document.getElementById("open").style.display="none";const field=document.getElementById("reply");if(field)setTimeout(()=>field.focus({preventScroll:true}),80)}
 function readReplies(){try{const raw=localStorage.getItem("siyaReplies");const parsed=raw?JSON.parse(raw):[];return Array.isArray(parsed)?parsed.filter(x=>x&&typeof x.text==="string"&&typeof x.time==="string").slice(-50):[]}catch(e){return []}}
 function backendConfigured(){
   const cfg=window.SIYA_BACKEND||{};
@@ -1230,21 +1296,31 @@ async function saveReply(){
   }catch(error){list.textContent=error.message || "Something went wrong. Please try again."}
   finally{if(sendButton){sendButton.disabled=false;sendButton.textContent="Send ❤️"}}
 }
-function clearReplyForm(){
-  const field=document.getElementById("reply");
-  const input=document.getElementById("replyPhotoInput");
-  const preview=document.getElementById("replyPhotoPreview");
-  const photoStatus=document.getElementById("replyPhotoStatus");
+function showReplies(){
   const list=document.getElementById("list");
-  if(field)field.value="";
-  if(input)input.value="";
-  if(preview){preview.hidden=true;preview.removeAttribute("src");}
-  if(photoStatus)photoStatus.textContent="Optional photo · maximum 5 MB";
-  if(list)list.textContent="Draft cleared. You can write a new message. ✨";
+  if(!backendConfigured()){
+    list.textContent="Demo mode: replies cannot be retrieved yet. Connect and configure the Supabase read-replies function first.";
+    return;
+  }
+  list.textContent="Reply viewing is not configured yet.";
 }
-updateStoryProgress(current);
 </script>
 
+<script>
+document.addEventListener('click', function(e){
+  const target = e.target.closest('button,[role="button"],.open,.open-btn,.message-btn,.envelope');
+  if(!target) return;
+  setTimeout(function(){
+    document.querySelectorAll('.firework').forEach((fw,i)=>{
+      fw.style.animation = 'none';
+      void fw.offsetWidth;
+      fw.style.opacity = '1';
+      fw.querySelectorAll('span').forEach(s=>{ s.style.animation = 'none'; void s.offsetWidth; s.style.animation='burst 1.35s ease-out forwards'; s.style.animationDelay=(i*90)+'ms'; });
+    });
+  },120);
+});
+</script>
+</div>
 
 
 <script>
@@ -1366,13 +1442,35 @@ updateStoryProgress(current);
       </div>
       <div class="jfy-inside">
         <strong>Dear Siya 💓</strong><br>
-        I hope this little birthday story adds one more happy memory to your day. Keep choosing what makes you feel confident, peaceful and excited about life. You deserve kindness, joy and beautiful new beginnings. ✨
+        I hope this little birthday story made you smile. Keep choosing the things that make your heart feel light, and remember that you deserve kindness, joy and beautiful new beginnings. ✨
       </div>
     </div>
 
     <button class="btn" onclick="go(10)">Continue ❤️</button>
   </div>
 </section>
+
+<section class="scene" id="s14" aria-label="Grand birthday finale">
+  <div class="bg"></div>
+  <div class="finale-stars" aria-hidden="true">✦　✧　·　✦　·　✧　✦</div>
+  <div class="content grand-finale-content">
+    <div class="finale-kicker">A celebration, just for you</div>
+    <div id="finaleCountdown" class="finale-countdown" role="status" aria-live="assertive">5</div>
+    <div id="finaleReveal" class="grand-finale-reveal" hidden>
+      <div class="finale-crown" aria-hidden="true">✦</div>
+      <p class="finale-small-title">THE NIGHT IS YOURS</p>
+      <h1 class="grand-finale-title">HAPPY BIRTHDAY<br><span>SIYA!</span></h1>
+      <div class="finale-divider" aria-hidden="true"><span>✧</span></div>
+      <p class="finale-message">May your year be filled with genuine laughter, beautiful surprises, peaceful days and memories that make you smile long after they happen. Keep shining, Siya. ❤️</p>
+      <p class="finale-signoff">A little celebration made just for you ✨</p>
+      <div class="finale-actions">
+        <button class="btn" type="button" onclick="replayGrandFinale()">See the fireworks again ✨</button>
+        <button class="btn finale-replay" type="button" onclick="location.reload()">Replay the whole story ↻</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <script>
 (function(){
@@ -1393,8 +1491,7 @@ updateStoryProgress(current);
   const note=document.getElementById("messageOpenNote");
   if(!env||!out)return;
 
-  // Keep the agreed friendly birthday tone, with each part rendered as a separate paragraph.
-  const paragraphs=[
+  const words=[
     "Dear Siya ❤️🎂,",
     "Happy Birthday to someone who deserves all the happiness in the world. ✨",
     "I don't know if you realize how special you are, but there's something about you that makes ordinary moments feel a little more beautiful.",
@@ -1407,72 +1504,67 @@ updateStoryProgress(current);
     "With lots of wishes and a little surprise, just for you. 💓"
   ];
 
-  let opened=false;
-  let typing=false;
-  let typeTimer=null;
-
-  function resetLetter(){
-    if(typeTimer){clearTimeout(typeTimer);typeTimer=null;}
-    typing=false;
-    out.replaceChildren();
-    const paper=out.parentElement;
-    if(paper)paper.scrollTop=0;
-  }
-
+  let opened=false, typing=false;
   function openMessage(){
     if(typing)return;
     if(!opened){
       opened=true;
       env.classList.add("open");
-      note.textContent="Swipe inside the letter to read more… 💓";
-      resetLetter();
+      note.textContent="A little message, just for you… 💓";
       typing=true;
-      let paragraphIndex=0;
-      let charIndex=0;
-      let currentParagraph=null;
+      out.textContent="";
+      out.style.transform="translateY(0)";
+      let wi=0,ci=0;
+      let scrollStep=0;
 
-      function typeNext(){
-        if(paragraphIndex>=paragraphs.length){
-          typing=false;
-          typeTimer=null;
-          note.textContent="Take your time… ❤️";
-          return;
-        }
-        if(!currentParagraph){
-          currentParagraph=document.createElement("p");
-          currentParagraph.className="letter-paragraph";
-          out.appendChild(currentParagraph);
-        }
-        const text=paragraphs[paragraphIndex];
-        if(charIndex<text.length){
-          currentParagraph.textContent+=text.charAt(charIndex++);
-          // Keep the beginning of the letter in view while it types; the reader can swipe
-          // inside the paper to read further paragraphs instead of being auto-scrolled.
-          typeTimer=setTimeout(typeNext,18);
+      function nextWord(){
+        if(wi>=words.length){typing=false;note.textContent="Take your time… ❤️";return;}
+        const word=words[wi];
+        if(ci<word.length){
+          out.textContent+=word[ci++];
+          // Slowly move the message upward as it fills, like a cinematic letter reveal.
+          if(out.parentElement.scrollHeight > out.parentElement.clientHeight){
+            out.parentElement.scrollTo({top:out.parentElement.scrollHeight,behavior:"smooth"});
+          }
+          setTimeout(nextWord,24);
         }else{
-          paragraphIndex++;
-          charIndex=0;
-          currentParagraph=null;
-          typeTimer=setTimeout(typeNext,260);
+          out.textContent+=" ";
+          wi++;ci=0;
+          setTimeout(nextWord,115);
         }
       }
-      typeTimer=setTimeout(typeNext,500);
+      setTimeout(nextWord,650);
     }else{
+      // Closing and reopening is allowed without changing any other slide.
       opened=false;
       env.classList.remove("open");
       note.textContent="A little message is waiting inside… ✨";
-      resetLetter();
+      out.textContent="";
     }
   }
 
-  env.addEventListener("click",e=>{e.preventDefault();openMessage();});
+  env.addEventListener("click",e=>{e.preventDefault();openMessage()});
   env.addEventListener("keydown",e=>{
-    if(e.key==="Enter"||e.key===" "){e.preventDefault();openMessage();}
+    if(e.key==="Enter"||e.key===" "){e.preventDefault();openMessage()}
   });
 })();
 </script>
 
-
+<script>
+(function(){
+  const env=document.getElementById("ourMomentsEnvelope");
+  if(!env)return;
+  function toggle(){env.classList.toggle("open")}
+  env.addEventListener("click",e=>{
+    // Do not hijack taps intended to open the device photo picker.
+    if(e.target.closest('input, label, button, a, textarea, select')) return;
+    e.preventDefault();toggle();
+  });
+  env.addEventListener("keydown",e=>{
+    if((e.key==="Enter"||e.key===" ") && e.target===env){e.preventDefault();toggle()}
+  });
+})();
+</script>
 
 <style id="om-envelope-final-behavior">
 /* Closed: the photo is only a soft, faint preview inside the envelope. */
@@ -2029,231 +2121,6 @@ html,body{width:100%;max-width:100%;overflow:hidden!important;-webkit-text-size-
 #recipientPhotoBox{cursor:default;}
 #recipientPhotoPreview{cursor:pointer;}
 @media(max-width:700px){.memory-photo-choose{min-height:44px!important;width:auto!important;max-width:100%!important;}}
-</style>
-
-<style id="siya-mobile-optimization-v3">
-/* Small UX upgrades; the original story, colors, scenes and animations remain intact. */
-.story-progress{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;height:3px;z-index:1500;background:rgba(255,255,255,.12);pointer-events:none;overflow:hidden}
-.story-progress-fill{display:block;width:7.6923%;height:100%;background:linear-gradient(90deg,#d9b5c2,#f5ddb1);box-shadow:0 0 12px rgba(245,221,177,.55);transition:width .45s ease}
-@media(max-width:700px){
-  html,body{width:100%;max-width:100%;overflow:hidden!important;overscroll-behavior:none}
-  .scene,.scene.active{height:100vh!important;min-height:100vh!important;height:100dvh!important;min-height:100dvh!important;}
-  .scene{overscroll-behavior-y:contain;scrollbar-width:none}
-  .scene::-webkit-scrollbar{display:none}
-  .scene .content{padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))!important}
-  .scene .btn,.scene button,.scene [role="button"]{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-  .scene input,.scene textarea,.scene select{font-size:16px!important}
-  #s11 .reply-actions .btn{min-height:48px!important}
-}
-@supports not (height:100dvh){
-  @media(max-width:700px){.scene,.scene.active{height:100vh!important;min-height:100vh!important}}
-}
-@media(prefers-reduced-motion:reduce){.story-progress-fill{transition:none!important}}
-</style>
-
-<section class="scene" id="s14" aria-label="Grand birthday finale">
-  <div class="bg"></div>
-  <div class="finale-stars" aria-hidden="true">✦　✧　·　✦　·　✧　✦</div>
-  <div class="content grand-finale-content">
-    <div class="finale-kicker">A celebration, just for you</div>
-    <div id="finaleCountdown" class="finale-countdown" role="status" aria-live="assertive">5</div>
-    <div id="finaleReveal" class="grand-finale-reveal" hidden>
-      <div class="finale-crown" aria-hidden="true">✦</div>
-      <p class="finale-small-title">THE NIGHT IS YOURS</p>
-      <h1 class="grand-finale-title">HAPPY BIRTHDAY<br><span>SIYA!</span></h1>
-      <div class="finale-divider" aria-hidden="true"><span>✧</span></div>
-      <p class="finale-message">May your year be filled with genuine laughter, beautiful surprises, peaceful days and memories that make you smile long after they happen. Keep shining, Siya. ❤️</p>
-      <p class="finale-signoff">A little celebration made just for you ✨</p>
-      <div class="finale-actions">
-        <button class="btn" type="button" onclick="replayGrandFinale()">See the fireworks again ✨</button>
-        <button class="btn finale-replay" type="button" onclick="location.reload()">Replay the whole story ↻</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<style id="sinu-mobile-final-stability">
-/* Final mobile pass: keep every scene inside the viewport and allow vertical scrolling only when needed. */
-@keyframes sinuMobileBgDrift {
-  0% { background-position: 0% 0%; }
-  50% { background-position: 100% 35%; }
-  100% { background-position: 45% 100%; }
-}
-@media (max-width:700px) {
-  html, body {
-    width:100%!important;
-    max-width:100%!important;
-    height:100%!important;
-    overflow:hidden!important;
-    overscroll-behavior:none!important;
-    -webkit-text-size-adjust:100%;
-  }
-  .scene, .scene.active {
-    display:flex!important;
-    flex-direction:column!important;
-    justify-content:flex-start!important;
-    align-items:center!important;
-    position:absolute!important;
-    inset:0!important;
-    width:100vw!important;
-    max-width:100vw!important;
-    height:100vh!important;
-    height:100dvh!important;
-    min-height:100vh!important;
-    min-height:100dvh!important;
-    max-height:100dvh!important;
-    box-sizing:border-box!important;
-    overflow-x:hidden!important;
-    overflow-y:auto!important;
-    -webkit-overflow-scrolling:touch!important;
-    overscroll-behavior-y:contain!important;
-    scrollbar-width:none!important;
-    padding:calc(13px + env(safe-area-inset-top,0px)) 11px calc(16px + env(safe-area-inset-bottom,0px))!important;
-  }
-  .scene::-webkit-scrollbar {display:none!important;width:0!important;height:0!important;}
-  /* Avoid the oversized animated background creating phantom scroll space. */
-  .scene > .bg, .scene.active > .bg {
-    position:absolute!important;
-    inset:0!important;
-    width:100%!important;
-    height:100%!important;
-    transform:none!important;
-    background-size:140% 140%!important;
-    animation:sinuMobileBgDrift 28s ease-in-out infinite alternate!important;
-    pointer-events:none!important;
-  }
-  .scene .content {
-    position:relative!important;
-    inset:auto!important;
-    flex:0 0 auto!important;
-    width:min(100%,560px)!important;
-    max-width:560px!important;
-    min-width:0!important;
-    box-sizing:border-box!important;
-    margin:auto!important;
-    padding:clamp(18px,4.6vw,26px) clamp(13px,4vw,21px) calc(18px + env(safe-area-inset-bottom,0px))!important;
-    overflow-wrap:anywhere!important;
-  }
-  .scene .content > * {max-width:100%;}
-  .scene h1 {
-    max-width:100%!important;
-    font-size:clamp(29px,8.2vw,43px)!important;
-    line-height:1.1!important;
-    letter-spacing:-.6px!important;
-    overflow-wrap:anywhere!important;
-    text-wrap:balance;
-  }
-  .scene p {
-    max-width:100%!important;
-    font-size:clamp(15px,4.1vw,18px)!important;
-    line-height:1.58!important;
-    overflow-wrap:anywhere!important;
-    text-wrap:pretty;
-  }
-  .scene .kicker {
-    max-width:100%!important;
-    font-size:9px!important;
-    line-height:1.5!important;
-    letter-spacing:clamp(1.2px,.45vw,2.4px)!important;
-    overflow-wrap:anywhere!important;
-  }
-  .scene button, .scene .btn, .scene [role="button"] {
-    max-width:100%!important;
-    min-height:46px!important;
-    touch-action:manipulation!important;
-    -webkit-tap-highlight-color:transparent!important;
-  }
-  .scene input, .scene textarea, .scene select {
-    max-width:100%!important;
-    min-width:0!important;
-    font-size:16px!important;
-    box-sizing:border-box!important;
-  }
-  .scene textarea {width:100%!important;min-height:116px!important;resize:vertical!important;}
-  .message-envelope-wrap, .message-envelope, .jfy-card {max-width:100%!important;}
-  #s5 .cake {
-    max-width:100%!important;
-    transform:scale(.74)!important;
-    transform-origin:center top!important;
-    margin-top:0!important;
-    margin-bottom:-58px!important;
-  }
-  #s11 .reply-actions {
-    display:flex!important;
-    flex-direction:column!important;
-    align-items:stretch!important;
-    width:100%!important;
-    gap:9px!important;
-  }
-  #s11 .reply-actions .btn {
-    width:100%!important;
-    max-width:100%!important;
-    min-height:48px!important;
-    margin:0!important;
-  }
-  #s11 .reply-photo-picker {width:100%!important;max-width:100%!important;}
-  #s11 #replyPhotoPreview {width:min(100%,340px)!important;max-height:30dvh!important;object-fit:contain!important;}
-  #s11 .reply {max-width:100%!important;overflow-wrap:anywhere!important;}
-  #s14 .grand-finale-content {width:100%!important;max-width:560px!important;}
-  #s14 .finale-actions {width:100%!important;flex-direction:column!important;align-items:stretch!important;}
-  #s14 .finale-actions .btn {width:100%!important;max-width:320px!important;margin:5px auto!important;}
-  .fire {z-index:60!important;pointer-events:none!important;}
-  body:has(#s14.active) .cinematic-heart {display:none!important;}
-}
-@media (max-width:380px) {
-  .scene, .scene.active {padding-left:8px!important;padding-right:8px!important;}
-  .scene .content {padding-left:11px!important;padding-right:11px!important;}
-  .scene .btn, .scene button.btn {font-size:11px!important;padding:11px 13px!important;}
-  #s5 .cake {transform:scale(.68)!important;margin-bottom:-78px!important;}
-  #s1 .content.opening-clean {width:calc(100vw - 30px)!important;}
-}
-@media (max-height:700px) and (max-width:700px) {
-  .scene, .scene.active {justify-content:flex-start!important;}
-  .scene .content {margin:8px auto!important;}
-  #s5 .cake {transform:scale(.67)!important;margin-bottom:-86px!important;}
-  #s5 .content {padding-top:14px!important;}
-}
-@media (prefers-reduced-motion:reduce) {
-  .scene > .bg, .scene.active > .bg {animation:none!important;}
-  .fire {display:none!important;}
-}
-</style>
-
-
-<style id="letter-paragraph-spacing-fix">
-#s8 .envelope-paper{padding:22px 24px!important;line-height:1.7!important;scroll-behavior:auto;overscroll-behavior:contain;}
-#s8 .typed-message{display:block!important;white-space:normal!important;text-align:left!important;font:15px/1.72 Georgia,"Times New Roman",serif!important;color:#4b2930!important;overflow-wrap:anywhere;}
-#s8 .typed-message p{display:block!important;margin:0 0 14px!important;padding:0!important;color:#4b2930!important;font:inherit!important;line-height:1.72!important;white-space:normal!important;}
-#s8 .typed-message p:first-child{font-weight:700;margin-bottom:12px!important;}
-#s8 .typed-message p:last-child{margin-bottom:0!important;font-style:italic;}
-@media(max-width:600px){
-  #s8 .envelope-paper{padding:16px 15px!important;}
-  #s8 .typed-message,#s8 .typed-message p{font-size:14px!important;line-height:1.62!important;}
-  #s8 .typed-message p{margin-bottom:12px!important;}
-}
-</style>
-
-
-<style id="clean-opening-no-extra-decor">
-body:has(#s1.active) .cinematic-particles,
-body:has(#s1.active) .cinematic-stars,
-body:has(#s1.active) .message-spark,
-body:has(#s1.active) .cinematic-heart{display:none!important;}
-</style>
-
-
-<style id="mobile-viewport-overflow-final-fix">
-@media(max-width:700px){
-  html,body{overflow-x:clip!important;max-width:100%!important;}
-  .scene,.scene.active{
-    width:100%!important;
-    max-width:100%!important;
-    transform:none!important;
-    transition:opacity 1s ease!important;
-  }
-  #storyProgress{width:100%!important;max-width:100%!important;right:auto!important;}
-}
 </style>
 
 </body>
