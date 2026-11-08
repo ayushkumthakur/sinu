@@ -1103,8 +1103,7 @@ body:has(#s1.active) .cinematic-heart{display:none!important}
 
 
 <section class="scene" id="s10"><div class="bg"></div><div class="content"><div style="font-size:105px">🎆</div><h1>Here's to you, Siya! 🎆</h1><p>May you always have reasons to laugh, dreams to chase and people who remind you how special you are. You deserve all the lovely things life has to offer. ❤️</p><button class="btn" onclick="go(11)">Leave a message 💬</button></div></section>
-<section class="scene" id="s11"><div class="bg"></div><div class="content"><div class="kicker">Your turn, if you'd like</div><h1 style="font-size:44px">Leave a little message?</h1><button id="open" class="btn" onclick="openReply()">Open reply box 💌</button><div id="replyBox" style="display:none;width:100%"><label class="sr-only" for="reply">Your message to Siya</label><textarea id="reply" placeholder="Write your reply here…" maxlength="2000"></textarea>
-<div class="reply-actions"><button class="btn" type="button" onclick="saveReply()">Send ❤️</button><button class="btn" type="button" onclick="clearReplyForm()">Clear draft</button></div><div id="list" class="reply" aria-live="polite"></div></div>
+<section class="scene" id="s11"><div class="bg"></div><div class="content"><div class="kicker">Your turn, if you'd like</div><h1 style="font-size:44px">Leave a little message?</h1><button id="open" class="btn" onclick="openReply()">Open reply box 💌</button><div id="replyBox" style="display:none;width:100%"><label class="sr-only" for="reply">Your message to Siya</label><textarea id="reply" placeholder="Write your reply here…" maxlength="2000"></textarea><div class="reply-photo-picker"><label class="btn photo-pick-btn" for="replyPhotoInput">Attach a photo 📷</label><input id="replyPhotoInput" type="file" accept="image/*" aria-label="Attach a photo to your message"><img id="replyPhotoPreview" alt="Selected photo preview" hidden><p id="replyPhotoStatus" aria-live="polite">Optional photo · maximum 5 MB</p></div><div class="reply-actions"><button class="btn" type="button" onclick="saveReply()">Send ❤️</button><button class="btn" type="button" onclick="clearReplyForm()">Clear draft</button></div><div id="list" class="reply" aria-live="polite"></div></div>
   <p class="finale-invite">One last little surprise is waiting… ✨</p>
   <button class="btn finale-launch" type="button" onclick="go(14)">Finish &amp; celebrate 🎆</button>
 </div></section>
@@ -1198,30 +1197,49 @@ async function saveReply(){
   const list=document.getElementById("list");
   if(!message){list.textContent="Write a little message first ❤️";field?.focus();return}
   if(!backendConfigured()){
-    list.textContent="Demo mode: online replies are not connected yet. Your message has not been sent.";
+    list.textContent="Demo mode: online replies and photo sending are not connected yet. Your message has not been sent.";
     return;
   }
+  const input=document.getElementById("replyPhotoInput");
+  const photoFile=input && input.files && input.files[0] ? input.files[0] : null;
   const sendButton=Array.from(document.querySelectorAll("#s11 .reply-actions button")).find(b=>/Send/i.test(b.textContent));
   if(sendButton){sendButton.disabled=true;sendButton.textContent="Sending…"}
   list.textContent="Sending your message securely…";
   try{
-  const cfg=window.SIYA_BACKEND;
+    let photoData=null;
+    if(photoFile){
+      if(!photoFile.type.startsWith("image/")) throw new Error("Please choose a valid image file.");
+      if(photoFile.size>5*1024*1024) throw new Error("Please choose an image under 5 MB.");
+      photoData={name:photoFile.name,type:photoFile.type,data:await new Promise((resolve,reject)=>{
+        const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(",")[1]);reader.onerror=()=>reject(new Error("Could not read that photo."));reader.readAsDataURL(photoFile);
+      })};
+    }
+    const cfg=window.SIYA_BACKEND;
     const response=await fetch(cfg.url.replace(/\/$/,"")+"/functions/v1/submit-birthday",{
       method:"POST",
       headers:{"Content-Type":"application/json","apikey":cfg.anonKey,"Authorization":"Bearer "+cfg.anonKey},
-      body:JSON.stringify({message:message.slice(0,2000)})
+      body:JSON.stringify({message:message.slice(0,2000),photo:photoData})
     });
     const result=await response.json().catch(()=>({}));
     if(!response.ok) throw new Error(result.error || "Could not send right now. Please try again.");
     field.value="";
+    if(input) input.value="";
+    const preview=document.getElementById("replyPhotoPreview");if(preview){preview.hidden=true;preview.removeAttribute("src");}
+    const photoStatus=document.getElementById("replyPhotoStatus");if(photoStatus) photoStatus.textContent="Optional photo · maximum 5 MB";
     list.textContent="Your message has been sent. Thank you ❤️";
   }catch(error){list.textContent=error.message || "Something went wrong. Please try again."}
   finally{if(sendButton){sendButton.disabled=false;sendButton.textContent="Send ❤️"}}
 }
 function clearReplyForm(){
   const field=document.getElementById("reply");
+  const input=document.getElementById("replyPhotoInput");
+  const preview=document.getElementById("replyPhotoPreview");
+  const photoStatus=document.getElementById("replyPhotoStatus");
   const list=document.getElementById("list");
   if(field)field.value="";
+  if(input)input.value="";
+  if(preview){preview.hidden=true;preview.removeAttribute("src");}
+  if(photoStatus)photoStatus.textContent="Optional photo · maximum 5 MB";
   if(list)list.textContent="Draft cleared. You can write a new message. ✨";
 }
 updateStoryProgress(current);
@@ -1761,6 +1779,7 @@ button,.btn{cursor:pointer;}
   }
   function setup(){
     bindPhotoPicker("recipientPhotoInput","recipientPhotoPreview","memoryPhotoStatus","recipientPhotoPlaceholder",5*1024*1024,"Preview ready on this device only. Online saving needs backend setup.");
+    bindPhotoPicker("replyPhotoInput","replyPhotoPreview","replyPhotoStatus",null,5*1024*1024,"Photo selected. It will only send after backend setup is complete.");
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setup,{once:true});else setup();
 })();
@@ -1949,6 +1968,12 @@ html,body{width:100%;max-width:100%;overflow:hidden!important;-webkit-text-size-
 .cinematic-intro .intro-text{width:100%;max-width:900px;padding:0 10px;box-sizing:border-box;font-size:clamp(26px,7.8vw,64px)!important;line-height:1.12;letter-spacing:clamp(1px,.8vw,4px)!important;overflow-wrap:anywhere;text-wrap:balance;}
 .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;}
 .photo-status{font:12px/1.45 system-ui,sans-serif!important;opacity:.8;max-width:100%;overflow-wrap:anywhere;margin:8px auto 2px!important;}
+.reply-photo-picker{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;margin:10px auto 12px;}
+.reply-photo-picker input[type=file]{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;}
+.reply-photo-picker .photo-pick-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;cursor:pointer;}
+#replyPhotoPreview{display:block;width:min(100%,360px);max-height:38dvh;object-fit:contain;border-radius:12px;border:1px solid #F5DDB175;}
+#replyPhotoPreview[hidden],#recipientPhotoPlaceholder[hidden],#recipientPhotoPreview[hidden]{display:none!important;}
+#replyPhotoStatus{font:12px/1.4 system-ui,sans-serif!important;color:var(--muted);margin:0 auto!important;}
 #s11 .reply-actions button:disabled{opacity:.65;cursor:wait;transform:none!important;}
 @media(max-width:700px){
   .scene,.scene.active{position:absolute!important;display:block!important;inset:0!important;width:100%!important;height:100dvh!important;min-height:100dvh!important;max-height:none!important;overflow-x:hidden!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;padding:calc(12px + env(safe-area-inset-top,0px)) 10px calc(18px + env(safe-area-inset-bottom,0px))!important;}
@@ -1975,7 +2000,9 @@ html,body{width:100%;max-width:100%;overflow:hidden!important;-webkit-text-size-
   #s9 .om-photo-area{max-width:100%!important;}
   #s9 .om-photo-area img{max-width:100%!important;object-fit:contain!important;}
   #s9 .our-moments-envelope.open .om-photo-area img{max-height:48dvh!important;}
-  #s12 .jfy-card{width:100%!important;max-width:100%!important;min-height:180px;}.last-slide-actions,.last-slide-only{position:static!important;max-width:100%;flex-wrap:wrap;}
+  #s12 .jfy-card{width:100%!important;max-width:100%!important;min-height:180px;}
+  #replyPhotoPreview{max-height:32dvh;}
+  .last-slide-actions,.last-slide-only{position:static!important;max-width:100%;flex-wrap:wrap;}
 }
 @media(max-width:380px){
  .scene,.scene.active{padding-left:7px!important;padding-right:7px!important;}
@@ -2164,7 +2191,10 @@ html,body{width:100%;max-width:100%;overflow:hidden!important;-webkit-text-size-
     max-width:100%!important;
     min-height:48px!important;
     margin:0!important;
-  }#s11 .reply {max-width:100%!important;overflow-wrap:anywhere!important;}
+  }
+  #s11 .reply-photo-picker {width:100%!important;max-width:100%!important;}
+  #s11 #replyPhotoPreview {width:min(100%,340px)!important;max-height:30dvh!important;object-fit:contain!important;}
+  #s11 .reply {max-width:100%!important;overflow-wrap:anywhere!important;}
   #s14 .grand-finale-content {width:100%!important;max-width:560px!important;}
   #s14 .finale-actions {width:100%!important;flex-direction:column!important;align-items:stretch!important;}
   #s14 .finale-actions .btn {width:100%!important;max-width:320px!important;margin:5px auto!important;}
